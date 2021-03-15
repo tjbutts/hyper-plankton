@@ -58,8 +58,8 @@ phy = 'phy'
 zp = 'zp'
 
 totphy <- pre_totalbiom %>% 
-  rename(doy = Day) %>% 
-  mutate(phy_biom_ug_l = totalbiom*1000) %>% 
+  rename(doy = Day) %>%
+  rename(phy_biom_ug_l = totalbiom) %>%
   as_tibble()
 totphy  
 
@@ -71,12 +71,11 @@ totzp
 plankton <- left_join(totzp, totphy, by = 'doy')
 tte <- plankton %>% 
   mutate(tte = zp_biom_ug_l/phy_biom_ug_l) %>%
-  mutate(tte2 = zp_biom_ug_l/totalbiom) %>% 
   as_tibble()
 tte
 
 windows(height=8.5, width=12)
 par(mai=c(0.9,1,0.6,1))
-plot(tte$doy, tte$tte2, type = "o", pch = 20, col='mediumseagreen', cex=3,cex.axis=1.5,cex.lab=1.5, xlab="Day of Year", ylab="zp:phy ratio", lwd=4, xlim=c(143,255) )
+plot(tte$doy, tte$tte, type = "o", pch = 20, col='mediumseagreen', cex=3,cex.axis=1.5,cex.lab=1.5, xlab="Day of Year", ylab="zp:phy ratio", lwd=4, xlim=c(143,255) )
 
 
