@@ -114,7 +114,7 @@ par(new = T)
 plot(pre_totalbiom$Day, pre_totalbiom$totalbiom, type = 'p', pch=17, col='black', cex=3, axes=F, xlab='', ylab='')
 axis(side=4, at = c(0,50,100,150,200,250,300), cex=3, cex.axis=1.5, cex.lab=1.5)
 mtext('Phytoplankton biomass (mg/L)', side=4, line=3, cex=1.5)
-legend("topright", legend=c('EXO Sonde Total Algae', 'Incubation phyto biomass'), col=c("mediumseagreen",'black'), cex=1.5, pt.cex=3, pch=c(20,17), bg="white")
+legend("topright", legend=c('EXO Sonde Total Algae', 'Incubation phyto biomass'), col=c("mediumseagreen",'black'), cex=1, pt.cex=2, pch=c(20,17), bg="white")
 
 
 # Species Rate of Change - might not be as useful as Diamond Turnover #### 
