@@ -401,7 +401,7 @@ axis(side=4, cex=3, cex.axis=1.5, cex.lab=1.5, at = c(16, 16.5, 17, 17.5, 18, 18
 mtext('Zooplankton N:P', side = 4, line=3, cex=1.5)
 legend('topright', legend=c('depth1', 'depth2', 'depth3', 'depth4', 'Zoop N:P'), col = c('#008837','#a6dba0','#c2a5cf','#7b3294', 'black'), cex=1.5, pt.cex=3, pch=c(20,20,20,20,17))
 
-# Ingestion & Clearance Rates ------------------------------
+# Ingestion & Clearance Rates - might be too system specific ------------------------------
 # Calculate Zooplankton Density (#/L)
 #set wd 
 setwd("C:/Users/Owner/Box/Iowa Data/Biology Data/Zooplankton/2019 Green Valley Zooplankton")
@@ -542,3 +542,6 @@ legend("topleft", legend=c('Small Cladocerans', 'Large Cladocerans', 'Calanoida'
 
 
 
+
+# Qualitative Traits ---------------------------
+# Trophic Group 
