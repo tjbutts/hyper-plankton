@@ -94,7 +94,7 @@ windows(height=5, width=8)
 par(mai=c(0.9,1,0.6,1))
 
 gv19_zp2 <- gv19_zp %>%
-  filter(!(doy == 157 | doy == 162 | doy == 211))
+  filter(!(doy == 157 | doy == 162))
 # By ug/L 
 windows(height=5, width=8)
 par(mai=c(0.9,1,0.6,1))
