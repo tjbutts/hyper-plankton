@@ -256,19 +256,21 @@ prephy$time <- c('week1', 'week2', 'week3', 'week4', 'week5', 'week6', 'week7', 
 prephy %<>% modify_if(is.character, as.factor)
 prephy
 prephy2 <- gather(prephy, key='species', value='biovolume', -c(doy, time))
-prephy2 # Need to add a division identifier 
-phydiv <- read.csv('phy_taxon_trait.csv')
-prephy3 <- left_join(prephy2, phydiv, by='species')
+prephy2 %<>% rename(taxon = species) # Need to add a division identifier 
+setwd("C:/Users/Owner/Box/Iowa Data/Biology Data/Phytoplankton/2019 Green Valley Phytoplankton/Community data")
+phydiv <- read.csv('phyto_taxon_trait.csv')
+prephy2
+prephy3 <- left_join(prephy2, phydiv, by=c('taxon', 'doy'))
 as_tibble(prephy3)
 
-prephy3 %<>% group_by(doy, division) %>%
+prephy3 %<>%  group_by(doy, group) %>%
   summarise(totbiom = sum(biovolume)) %>%
   mutate(percentage = totbiom/ sum(totbiom)) %>% 
   ungroup() %>%
   as_tibble()
 prephy3
 
-prephy3$division <- factor(prephy3$division, levels=c('Bacillariophyta','Chlorophyta', 'Cryptophyta', 'Chrysophyta', 'Cyanophyta', 'Euglenophyta'))
+prephy3$division <- factor(prephy3$group, levels=c('Bacillariophyta','Chlorophyta', 'Cryptophyta', 'Chrysophyta', 'Cyanophyta', 'Euglenophyta'))
 
 # Plot
 library(viridis)
@@ -295,6 +297,47 @@ ggplot(prephy3, aes(x=doy, y=totbiom, fill=division)) +
   theme_bw() + 
   theme(panel.border = element_blank(), panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+# Stacked graph in base R to control colors 
+prephy3
+
+prephy3_long = prephy3 %>%
+  select(!(percentage)) %>%
+  pivot_wider(names_from = doy, 
+              values_from = totbiom) %>% 
+  arrange(factor(group, levels = c('Bacillariophyta', 'Chlorophyta', 'Cryptophyta', 'Chrysophyta', 'Cyanophyta', 'Euglenophyta'))) %>%
+  as_tibble()
+prephy3_long
+prephy3_long %<>% select(!c(group, division)) %>%
+  as.data.frame()
+row.names(prephy3_long) <- c('Bacillariophyta', 'Chlorophyta', 'Cryptophyta', 'Chrysophyta', 'Cyanophyta', 'Euglenophyta')
+gv19_phyto_stack <- as.matrix(prephy3_long)
+gv19_phyto_stack
+
+#Plot
+# Green Pallette: '#00261C', '#044D29', '#168039', '#A8C545', '#45BF55', '#96ED89'
+
+windows(height=5, width=8)
+par(mai=c(1,1.1,.6,.6))
+barplot(gv19_phyto_stack, 
+        col=c('#00261C', '#044D29', '#168039', '#A8C545', '#45BF55', '#96ED89'), 
+        border='black',
+        ylim = c(0,400),
+        space=0.04, 
+        font.axis=2, 
+        las=2)
+box()
+mtext('Phytoplankton Biomass (mg/L)', side = 2, line=3, cex=1.5)
+mtext('Day of Year, 2019', side =1, line = 3.5, cex=1.5)
+
+# Legend
+windows(height=5, width=5)
+par(mai=c(0.9,1,0.6,1))
+plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+legend("center", legend =c('Euglenophyta', 'Cyanophyta','Chrysophyta', 'Cryptophyta', 'Chlorophyta','Bacillariophyta'), 
+       pch=15, 
+       pt.cex=3, cex=1.5, bty='n',
+       col = c('#96ED89', '#45BF55', '#A8C545', '#168039', '#044D29','#00261C'))
 
 # Cyanophyte Diversity 
 setwd("C:/Users/Owner/Box/Green Valley Project/Plankton Data/phytoplankton")

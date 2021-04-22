@@ -1,13 +1,12 @@
 #################################################
 #### Green Valley Zooplankton Community Data ####
 #################################################
-
+rm(list=ls())
 # Read in raw data from zoop output 
 
 library(tidyverse)
 library(magrittr)
 
-rm(list=ls())
 # Set wd to raw data file 
 setwd("C:/Users/Owner/Box/Iowa Data/Biology Data/Zooplankton/2019 Green Valley Zooplankton")
 
@@ -127,6 +126,46 @@ ggplot(gv19_zp3, aes(x=doy, y=percentage, fill=group)) +
   theme_bw() + 
   theme(panel.border = element_blank(), panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+# Stacked graph in base R to control colors 
+gv19_zp2
+
+gv19_zp2_long = gv19_zp2 %>%
+  select(!(percentage)) %>%
+  pivot_wider(names_from = doy, 
+              values_from = totbiom) %>% 
+  arrange(factor(group, levels = c('LgCladocera', 'SmCladocera', 'Rotifer', 'Ostracod', 'Calanoid', 'Cyclopoid', 'Nauplii'))) %>%
+  as_tibble()
+gv19_zp2_long
+gv19_zp2_long %<>% select(!(group)) %>%
+  as.data.frame()
+row.names(gv19_zp2_long) <- c('LgCladocera', 'SmCladocera','Rotifer', 'Ostracod', 'Calanoid', 'Cyclopoid', 'Nauplii')
+gv19_zp_stack <- as.matrix(gv19_zp2_long)
+gv19_zp_stack
+
+#Plot
+# Cool Colors: '#00FEFF', '#59d8e6', '#00C8FF', '#009BDF', '#005BFF', '#0024FF', '#00305a'
+windows(height=5, width=8)
+par(mai=c(1,1.1,.6,.6))
+barplot(gv19_zp_stack, 
+        col=c('#00FEFF', '#59d8e6', '#00C8FF', '#009BDF', '#799AE0', '#0024FF', '#00305a'), 
+        border='black',
+        ylim = c(0,300),
+        space=0.04, 
+        font.axis=2, 
+        las=2)
+box()
+mtext('Zooplankton Biomass (ug/L)', side = 2, line=3, cex=1.5)
+mtext('Day of Year, 2019', side =1, line = 3.5, cex=1.5)
+
+# Legend
+windows(height=5, width=5)
+par(mai=c(0.9,1,0.6,1))
+plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+legend("center", legend =c('Nauplii', 'Cyclopoid','Calanoid', 'Ostracod' ,'Rotifer',  'SmCladocera', 'LgCladocera'), 
+       pch=15, 
+       pt.cex=3, cex=1.5, bty='n',
+       col = c('#00305a', '#0024FF', '#799AE0', '#009BDF', '#00C8FF','#59d8e6', '#00FEFF' ))
 
 # Density -------------------
 # Turn raw R output into a cleaned zoop data
