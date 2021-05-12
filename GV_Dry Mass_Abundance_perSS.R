@@ -690,3 +690,4 @@ gv19_COUNT = zp_count2 %>%
   filter(!(doy == 162 | doy == 157)) %>% # Remove the ALM sampling dates plus DOY 157 which we determined was wonky
   as_tibble()
 gv19_COUNT
+

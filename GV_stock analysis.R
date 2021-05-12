@@ -666,9 +666,8 @@ gv_pools
 
 gv_uML_stocks = gv_pools %>% 
   select(sampleid, doy, inorgN_uML, orgN_uML, n_uML_zp, inorgP_uML, orgP_uML, p_uML_zp) %>% # select useful columns
-  mutate(sesP_uML = orgP_uML-p_uML_zp, 
-         sesN_uML = orgN_uML-n_uML_zp) %>% # Calculate seston by taking organic pool and subtracting zoops to get seston
-  select(sampleid, doy, inorgN_uML, sesN_uML, n_uML_zp, inorgP_uML, sesP_uML, p_uML_zp) %>% 
+ # Calculate seston by taking organic pool and subtracting inorganicn
+  select(sampleid, doy, orgN_uML, inorgN_uML, n_uML_zp, orgP_uML, inorgP_uML, p_uML_zp) %>% 
   as_tibble() 
 gv_uML_stocks
 

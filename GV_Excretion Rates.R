@@ -1,4 +1,3 @@
-rm(list=ls())
 # Purpose of this script is to calculate the excretion rate of N and P of zooplankton from Green Valley Lake, IA 
 # First all code from GV_Dry Mass_Abundance_perSS.R must be run to get the data objects below: 
 gv19_DM
