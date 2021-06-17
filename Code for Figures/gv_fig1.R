@@ -9,6 +9,7 @@ library(magrittr)
 
 # Set wd to raw data file 
 setwd("C:/Users/Owner/Box/Iowa Data/Biology Data/Zooplankton/2019 Green Valley Zooplankton")
+setwd("C:/Users/Tyler/Box Sync/Iowa Data/Biology Data/Zooplankton/2019 Green Valley Zooplankton")
 
 # Turn raw R output into a cleaned zoop data
 zp_raw <- read.csv('2019_site4_gv_ZoopBiomass_25Feb2021.csv')
@@ -30,6 +31,8 @@ as_tibble(gv19_zp)
 # Total Biomass 
 # Set working directory to folder containing datasets derived from raw data 
 setwd("C:/Users/Owner/Box/Green Valley Project/Plankton Data/zooplankton")
+setwd("C:/Users/Tyler/Box Sync/Green Valley Project/Plankton Data/zooplankton")
+
 gv_totalbiom <- gv19_zp %>%
   select(sampleid, biomass,group, doy) %>%
   group_by(sampleid, doy) %>%
@@ -185,26 +188,23 @@ met = read.csv("met_gvl_2019_MatchEXOdoy.csv") #meteorological data from Creston
 hf = read.csv("high_frequency_EXO3_gvl_2019.csv") #EXO sonde data
 buoy = read.csv("Green-Valley_meta-thermo-buoy.csv") #buoyancy frequency data
 
-setwd("C:/Users/Owner/Box/Green Valley Project/Plankton Data/phytoplankton")
-prephy <- read.csv('pre_phyto_comm.csv') # pre-incubation phytoplankton community 
-postphy <- read.csv('post_phyto_comm.csv') # post-incubation phytoplankton community 
-
 setwd("C:/Users/Owner/Box/Iowa Data/Biology Data/Phytoplankton/2019 Green Valley Phytoplankton")
+setwd("C:/Users/Tyler/Box Sync/Iowa Data/Biology Data/Phytoplankton/2019 Green Valley Phytoplankton")
 gv19_phy <- read.csv('GVL_2019_Phyto_Summary.csv')
 as_tibble(gv19_phy)
 
 # Total biomass - filtered to pre 
-gv_totalbiom <- gv19_phy %>%
+gv_phytotalbiom <- gv19_phy %>%
   select(TAXON, BIOMASS.MG.L, Day, Treatment) %>%
   group_by(Day, Treatment) %>%
   summarise(
     totalbiom = sum(BIOMASS.MG.L)) %>%
   ungroup()
-as_tibble(gv_totalbiom)
+as_tibble(gv_phytotalbiom)
 
-pre_totalbiom <- gv_totalbiom %>%
+pre_phytotalbiom <- gv_phytotalbiom %>%
   filter(Treatment == "Pre")
-pre_totalbiom 
+pre_phytotalbiom 
 
 # Community Data
 library(tidyverse)
@@ -212,10 +212,20 @@ library(magrittr)
 library(purrr)
 library(forcats)
 
-setwd("C:/Users/Owner/Box/Green Valley Project/Plankton Data/phytoplankton")
-prephy <- read.csv('pre_phyto_comm.csv') # pre-incubation phytoplankton community 
-prephy <- as_tibble(prephy)
-prephy %<>% rename(doy = X)
+# Transform long form data to wide format 
+prephy <- as_tibble(gv19_phy)
+prephy %<>% rename(doy = Day)
+prephy = prephy %>% 
+  select(!(DIVISION)) %>%
+  filter(Treatment == 'Pre') %>%
+  select(!(Treatment)) %>%
+  pivot_wider(names_from = TAXON, 
+              values_from = BIOMASS.MG.L)
+prephy[is.na(prephy)] = 0
+prephy = prephy %>% select(!c(SAMPLE.ID, LAKE.NO))
+prephy
+
+# Gather data and add on larger taxonomic grouping 
 prephy$time <- c('week1', 'week2', 'week3', 'week4', 'week5', 'week6', 'week7', 'week8', 'week9', 'week10', 'week11', 'week12', 'week13', 'week14')
 prephy %<>% modify_if(is.character, as.factor)
 prephy
@@ -223,8 +233,9 @@ prephy2 <- gather(prephy, key='species', value='biovolume', -c(doy, time))
 prephy2 %<>% rename(taxon = species) # Need to add a division identifier 
 setwd("C:/Users/Owner/Box/Iowa Data/Biology Data/Phytoplankton/2019 Green Valley Phytoplankton/Community data")
 phydiv <- read.csv('phyto_taxon_trait_v2.csv')
+as_tibble(phydiv)
 prephy2
-prephy3 <- left_join(prephy2, phydiv, by=c('taxon', 'doy'))
+prephy3 <- left_join(prephy2, phydiv, by='taxon') 
 as_tibble(prephy3)
 
 unique(prephy3$group) # Combine Chrysophyta, Cryptophyta, and Euglenophyta into other; Cyanophyta into other Cyanos 
@@ -250,13 +261,13 @@ phybiomass$division <- factor(phybiomass$group, levels=c('Bacillariophyta','Chlo
 phybiomass = phybiomass %>% select(!(group))
 
 # Stacked graph in base R to control colors (total)
-pre_totalbiom
+pre_phytotalbiom
 Treatment = c('Pre', 'Pre', 'Pre')
 Day = c(211, 234, 273)
 totalbiom = c(0,0,0)
 miss = data.frame(Day, Treatment, totalbiom)
 miss
-phy_biomassbar = pre_totalbiom %>%
+phy_biomassbar = pre_phytotalbiom %>%
   rbind(miss) %>%
   arrange(Day) %>%
   select(Day, totalbiom) %>%
@@ -345,21 +356,7 @@ row.names(phypercent_long) <- c('Bacillariophyta','Chlorophyta', 'Other',
 gv19_phyto_stack_perc <- as.matrix(phypercent_long)
 gv19_phyto_stack_perc
 
-setwd("C:/Users/Owner/Box/Active/Active GV Research/Figures/Final")
-#write.csv(gv19_phyto_stack, 'gv19_phyto_stack_add.csv')
-gv19_phyto_stack = read.csv('gv19_phyto_stack_perc.csv')
-gv19_phyto_stack %<>% select(!(X))
-gv19_phyto_stack.m = as.matrix(gv19_phyto_stack)
-gv19_phyto_stack.m
-gv19_phyto_stack.m <- unname(gv19_phyto_stack.m)
-gv19_phyto_stack.m
-row.names(gv19_phyto_stack.m) <- c('Bacillariophyta','Chlorophyta', 'Other', 
-                                   'Aphanizomenon', 'Aphanothece','Dolichospermum', 
-                                   'Microcystis', 'Misc_Cyanos', 'Missing')
-
-gv19_phyto_stack.m
-colnames(gv19_phyto_stack.m) <- c(143, 150, 157, 164, 172, 178, 192, 199, 206,211,213,
-                                  220, 227, 234, 245, 251, 273)
+gv19_phyto_stack.m = as.matrix(gv19_phyto_stack_perc)
 gv19_phyto_stack.m
 
 #Plot

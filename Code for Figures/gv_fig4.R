@@ -21,6 +21,25 @@ prephy %<>% modify_if(is.character, as.factor)
 prephy
 colSums(prephy[,2:33])
 
+# Using GV Summary (All available decimal points) 
+setwd("C:/Users/Owner/Box/Iowa Data/Biology Data/Phytoplankton/2019 Green Valley Phytoplankton")
+setwd("C:/Users/Tyler/Box Sync/Iowa Data/Biology Data/Phytoplankton/2019 Green Valley Phytoplankton")
+gv19_phy <- read.csv('GVL_2019_Phyto_Summary.csv')
+as_tibble(gv19_phy)
+prephy <- as_tibble(gv19_phy)
+prephy %<>% rename(doy = Day)
+prephy = prephy %>% 
+  select(!(DIVISION)) %>%
+  filter(Treatment == 'Pre') %>%
+  arrange(doy) %>%
+  select(!(Treatment)) %>%
+  pivot_wider(names_from = TAXON, 
+              values_from = BIOMASS.MG.L)
+prephy[is.na(prephy)] = 0
+prephy = prephy %>% select(!c(SAMPLE.ID, LAKE.NO))
+prephy
+
+
 min(prephy[prephy > 0]) # minimum value is 0.0034 mg/L 
 prephy = prephy %>% 
   filter(!(doy == 157))
@@ -30,6 +49,19 @@ species
 
 species.hell = decostand(species, method = 'hellinger') # Hellinger transform species data 
 species.hell
+
+# Remove species <1% of biomass per DOY 
+total_col = apply(species[,-1], 1, sum)
+pcts = lapply(species[,-1], function(x) {
+  (x/total_col)*100
+})
+species2 = as.data.frame(pcts)
+species2 # select species that only occur once and contribute less than 1% of biomass to DOY 
+
+drops = c('Asterionella', 'Cosmarium', 'Elakatothrix', 'Staurastrum', 'Trachelomonas', 'Unknown centric bacillariophyte', 'Woronichinia', 'Monoraphidium', 'Mallomonas', 'Komma')
+species.cull = species2[ , !(names(species2) %in% drops)]
+species.cull
+species.hell2 = decostand(species.cull, method = 'hellinger')
 
 # Environmental Data =========================
 ## Explanatory: Inorg N, Inorg P, Zoop excretion N, Zoop excretion P, Zoop N:P, temp, pH, total dissolved solids, buoyancy-frequency
@@ -226,10 +258,10 @@ ph = hf_select$avg_ph
 tds = hf_select$avg_tds
 `TDS` = ((tds - mean(tds))/(sd(tds)))
 buoy_var = buoy_select$avg_buoy
-buoyz = (buoy_var - mean(buoy_var))/(sd(buoy_var))
+`buoyz` = (buoy_var - mean(buoy_var))/(sd(buoy_var))
 
 env = data.frame(doy, `inorganic P`, `inorganic N`, `P excretion`, `N excretion`, `zoop N:P`, 
-                 `temp`, `pH` , `TDS`)
+                 `temp`, `pH` , `TDS`, `buoyz`)
 env
 
 # Run db-RDA of phytoplankton community composition =============================
@@ -274,31 +306,67 @@ rankindex(env_exp2, species.hell, indices = c('euc', 'man', 'gow', 'bra', 'kul')
 
 
 # Run stepwise regression (backword and forward to attain the best model) 
-library(MASS)
-# fit the full model 
+library(MASS) # this masks select() in dplr so need to detach package if you want to to any tidying
+# fit the full model
+
+# Capscale function # 
 env_exp
-full = capscale(species.hell~., data = env_exp, na.action = na.omit)
+full = capscale(species.hell~., distance = 'bray', data = env_exp, na.action = na.omit)
 
 # Stepwise regression model to assess multicollinearity  
 step.model <- stepAIC(full, direction = 'both', trace = FALSE)
-
+step.model$anova
+ord.model = ordistep(full,scope = formula(full), trace = FALSE)
+ord.model
 
 # Is the model significant? 
-anova.cca(step.model)
+anova.cca(step.model) # Monte Carlo permutation test 
 anova.cca(step.model, by = 'axis', perm.max=999)# test axes for significance 
-anova.cca(step.model, by = 'terms', permu = 999)# test for significance of explanatory variables 
+anova.cca(step.model, by = 'terms', permu = 999)# test for significance of explanatory variables
 
 # summary 
 summary(step.model)
+
+# Run model using culled species data (one occurance + <1% biomass contribution)
+full.cull = capscale(species.hell2~., distance = 'bray', data = env_exp, na.action = na.omit)
+
+# Stepwise regression model to assess multicollinearity  
+step.model.cull <- stepAIC(full.cull, direction = 'both', trace = FALSE)
+
+# Is the model significant? 
+anova.cca(step.model.cull) # Monte Carlo permutation test 
+anova.cca(step.model.cull, by = 'axis', perm.max=999)# test axes for significance 
+anova.cca(step.model.cull, by = 'terms', permu = 999)# test for significance of explanatory variables
+
+# summary 
+summary(step.model.cull)
+
+# dbrda function # 
+full2 = dbrda(species.hell~., data = env_exp, na.action = na.omit)
+
+step.model2 <- stepAIC(full2, direction = 'both', trace = FALSE)
+
+anova.cca(step.model2)
+anova.cca(step.model2, by = 'axis', perm.max = 999)
+anova.cca(step.model2, by = 'terms', permu = 999)
+
+# summary 
+summary(step.model2)
 
 # plot model results 
 windows(height=6, width=9)
 par(mai=c(1,1.1,.6,.6))
 plot(step.model)
 
+par(mai=c(1,1.1,.6,.6))
+plot(step.model2)
+
 # Diagnostics 
 ordiresids(step.model, kind = 'residuals')
 ordiresids(step.model, kind = 'qqmath')
+
+ordiresids(step.model2, kind = 'residuals')
+ordiresids(step.model2, kind = 'qqmath')
 
 # Run db-RDA on phytoplankton functional traits (Need to figure out still) ===================================
 setwd("C:/Users/Owner/Box/Butts_Scripts/GV Grazing/chapter1-plankton-func/Derived Datasets")

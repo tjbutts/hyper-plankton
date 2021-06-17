@@ -3,6 +3,7 @@ rm(list = ls())
 library(tidyverse)
 library(ggplot2)
 library(ggridges)
+library(scales)
 
 # GALD ======================
 
@@ -26,46 +27,21 @@ unique(gald$division)
 # Get doy, division, gald  
 gald_plot = gald %>%
   select(doy, division, gald) %>%
+  mutate(doy = as.factor(doy)) %>%
   as_tibble()
 gald_plot
 
-doy = c(211, 211, 211, 234, 234,234, 273, 273,273)
+doy = as.factor(c(211, 211, 211, 234, 234,234, 273, 273,273))
 division = c('na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na')
-gald = c(0, 0, 0, 0, 0, 0, 0, 0, 0)
+gald = c(-1, -1, -1, -1, -1, -1, -1, -1, -1)
 miss = data.frame(doy, division, gald)
 str(miss) 
 miss
 
 gald_plot2 = gald_plot %>%
   rbind(miss) %>% 
-  arrange(doy) %>%
-  mutate(doy = as.factor(doy))
+  arrange(doy) 
 gald_plot2
-
-gald_cyano = gald_plot %>%
-  filter(division == 'Cyanophyte') %>% 
-  mutate(doy = as.factor(doy))
-
-ggplot(
-  gald_cyano, 
-  aes(x=gald, y = fct_rev(doy), height = ..density.. ,fill = stat(x))
-) + 
-  geom_density_ridges_gradient(stat = 'density', trim = T, scale = 3, size = 0.3, rel_min_height = 0.01) +
-  scale_fill_viridis_c(name = "GALD", option = "C") +
-  labs(title = 'Cyanophyta Greatest Axial Linear Distance')
-
-
-gald_ncyano = gald_plot %>%
-  filter(division == 'Non-Cyanophyte') %>% 
-  mutate(doy = as.factor(doy))
-
-ggplot(
-  gald_ncyano, 
-  aes(x=gald, y = fct_rev(doy), height = ..density.. ,fill = stat(x))
-) + 
-  geom_density_ridges_gradient(stat = 'density', trim = T, scale = 3, size = 0.3, rel_min_height = 0.01) +
-  scale_fill_viridis_c(name = "GALD", option = "C") +
-  labs(title = 'Cyanophyta Greatest Axial Linear Distance')
 
 # All phyto GALDs together since non-cyanophyte is very sparse and pretty much between 1-25 um whenever they show up 
 
@@ -73,14 +49,58 @@ ggplot(
 windows(height= 6, width = 8)
 par(mai=c(0.9,1,0.6,1))
 
-# average GALD
+# GALD Distribution
+
+# Get transparent colors 
+t_col <- function(color, percent = 50, name = NULL) {
+  #      color = color name
+  #    percent = % transparency
+  #       name = an optional name for the color
+  
+  ## Get RGB values for named color
+  rgb.val <- col2rgb(color)
+  
+  ## Make new color using input color as base and alpha set by transparency
+  t.col <- rgb(rgb.val[1], rgb.val[2], rgb.val[3],
+               max = 255,
+               alpha = (100 - percent) * 255 / 100,
+               names = name)
+  
+  ## Save the color
+  invisible(t.col)
+}
+## END
+mycol = t_col('dodgerblue2', perc = 50, name = 'lt.dblue2')
+mycol
+
 ggplot(
-  gald_plot, 
-  aes(x=log10(gald+1), y = fct_rev(doy), height = ..density.. ,fill = stat(x))
-) + 
-  geom_density_ridges_gradient(stat = 'density', trim = T, scale = 3, size = 0.3, rel_min_height = 0.01) +
-  scale_fill_viridis_c(name = "GALD", option = "C") +
+  gald_plot2, 
+  aes(x =gald, y = fct_rev(doy), height = ..density.., color = mycol )) + 
+  geom_density_ridges_gradient(stat = 'density', trim = F, scale = 3, size = 0.3, rel_min_height = 0.01, color = 'black') +
   labs(title = 'Phytoplankton Greatest Axial Linear Distance (GALD)') + 
+  annotation_logticks(sides = 'b') +
+  scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
+                labels = trans_format("log10", math_format(10^.x))) +
+  theme_bw() + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) + 
+  theme(axis.text = element_text(size = 12, face = 'bold', colour = 'black')) + 
+  theme(axis.title.x=element_blank(),
+        axis.title.y=element_blank()) 
+
+ggplot(iris, aes(x = Sepal.Length, y = Species)) +
+  geom_density_ridges(aes(fill = Species)) +
+  scale_fill_manual(values = c("#00AFBB", "#E7B800", "#FC4E07")) +
+  theme(legend.position = "none")
+
+ggplot(
+  gald_plot2, 
+  aes(x = gald, y = fct_rev(doy))) + 
+  geom_density_ridges(aes(fill = doy), na.rm = T) +
+  labs(title = 'Phytoplankton Greatest Axial Linear Distance (GALD)') + 
+  annotation_logticks(sides = 'b') +
+  scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
+                labels = trans_format("log10", math_format(10^.x))) +
   theme_bw() + 
   theme(panel.border = element_blank(), panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) + 
@@ -97,15 +117,16 @@ ggplot(
 ) + 
   geom_density_ridges_gradient(stat = 'density', trim = T, scale = 3, size = 0.3, rel_min_height = 0.01) +
   scale_fill_viridis_c(name = "GALD", option = "C") +
+  xlim(0, 3.5) +
   labs(title = 'Phytoplankton Greatest Axial Linear Distance (GALD)') + 
   theme_bw() + 
-  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) + 
+  theme(panel.border = element_blank(),panel.grid.major = element_line(colour = 'black') , axis.line = element_line(colour = "black")) + 
   theme(axis.text = element_text(size = 12, face = 'bold', colour = 'black')) + 
   theme(axis.title.x=element_blank(),
         axis.title.y=element_blank()) 
 
-# Zooplankton 
+
+# Zooplankton Length ===============================================
 setwd("C:/Users/Tyler/Box Sync/Active/Active GV Research/Trait compilation")
 
 lengths = read_csv('zoop_length.csv')
@@ -127,18 +148,48 @@ ggplot(
   aes(x=log10(length+1), y = fct_rev(doy), height = ..density.. ,fill = stat(x))
 ) + 
   geom_density_ridges_gradient(stat = 'density', trim = T, scale = 3, size = 0.3, rel_min_height = 0.15) +
-  xlim(1.5, 3.5) +
+  xlim(0, 3.5) +
   scale_fill_viridis_c(name = "Length", option = "C") +
   labs(title = 'Zooplankton Length') + 
   theme_bw() + 
-  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) + 
+  theme(panel.border = element_blank(),panel.grid.major = element_line(colour = 'black') , axis.line = element_line(colour = "black")) + 
   theme(axis.text = element_text(size = 12, face = 'bold', colour = 'black')) + 
   theme(axis.title.x=element_blank(),
         axis.title.y=element_blank()) 
 
+# Zooplankton Body Mass #==================================
+setwd("C:/Users/Tyler/Box Sync/Active/Active GV Research/Trait compilation")
+
+mass = read_csv('zoop_bodymass.csv')
+mass
+
+mass_range = mass %>% select(doy, bodymass_ug) 
+
+doy = c(157, 157, 157, 211, 211, 211) 
+bodymass_ug = c(0,0,0, 0,0,0)
+miss2 = data.frame(doy, bodymass_ug)
+mass_range2 = mass_range %>% rbind(miss2) %>% arrange(doy) %>% mutate(doy = as.factor(doy))
+mass_range2
+
+windows(height= 8, width = 6)
+par(mai=c(0.9,1,0.6,1))
+ggplot(
+  mass_range2, 
+  aes(x=log10(bodymass_ug+1), y = fct_rev(doy), height = ..density.. ,fill = stat(x))
+) + 
+  geom_density_ridges_gradient(stat = 'density', trim = T, scale = 3, size = 0.3, rel_min_height = 0.15) +
+  xlim(0, 3.5) +
+  scale_fill_viridis_c(name = "bodymass_ug", option = "C") +
+  labs(title = 'Zooplankton Body Mass') + 
+  theme_bw() + 
+  theme(panel.border = element_blank(),panel.grid.major = element_line(colour = 'black') , axis.line = element_line(colour = "black")) + 
+  theme(axis.text = element_text(size = 12, face = 'bold', colour = 'black')) + 
+  theme(axis.title.x=element_blank(),
+        axis.title.y=element_blank()) 
+
+
+
 # RUE #=================================
-# Phytoplankton ==============================
 
 # read in datasets 
 setwd("C:/Users/Owner/Box/Green Valley Project/Final Data/Cleaned Data")
@@ -316,3 +367,8 @@ axis(side=2,
           log10(200), log10(300), log10(400), log10(500), log10(600), log10(700), log10(800), log10(900), log10(1000), log(2000)), #Where the tick marks should be drawn
      labels = c('1', '', '','','','','','','','10','','','','','','','','','100', '', '', '','','','','','','1000','2000'), las=2, font = 2)
 abline(h = log10(100), lwd = 3)
+
+# Skewness & Kurtosis of distributions # ======================
+library(moments)
+# skewness() and kurtosis() 
+# What Question is this answering? Response variable is skewness/kurtosis; what is explanatory? 
