@@ -10,11 +10,8 @@ graphics.off()
 # Required Libraries for analysis and visualization
 if (!require(tidyverse)) install.packages('tidyverse')
 library(tidyverse)
-if (!require(here)) install.packages('here')
-library(here)
 
-# Set working directory 
-here()
+# Set working directory to whichever file the datasets were saved to
 
 # Data sets
 # Zooplankton data #===============
