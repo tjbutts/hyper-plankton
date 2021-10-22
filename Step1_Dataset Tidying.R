@@ -12,6 +12,7 @@ if (!require(tidyverse)) install.packages('tidyverse')
 library(tidyverse)
 
 # Set working directory to whichever file the datasets were saved to
+here::here() # Set to R project
 
 # Data sets
 # Zooplankton data #===============

@@ -241,6 +241,16 @@ polygon(
   c(min(totb9$doy), totb9$doy , max(totb9$doy)) , 
   c(0, totb9$totbiomass, 0),  col='#c2a5cf', border=F)
 
+# Need to reverse taxa order to follow the order of the polygons above 
+taxa = rev(c(expression(italic('Daphnia')), expression(italic('Ceriodaphnia')),
+             expression(italic('Bosmina')), expression(italic('Chydorus')), 'Rotifera','Ostracoda','Calanoid', 'Cyclopoid', 'Nauplii'))
+# Need to reverse colors to match reverse above 
+col= rev(c("#c2a5cf", "#9970ab", "#762a83" ,"#40004b", "#f1b6da", '#f075c0', "#A2A1A6", '#6D6C70', '#3C3B3D'))
+legend(170, 298, legend = taxa, 
+       pch=15, 
+       pt.cex=1.5, cex=0.8,
+       col = col, ncol=2)
+
 # Phytoplankton Biomass Time Series #==========================
 # Transform long form data to wide format, make column headers consistent, and prepare for join with phytoplankton group information
 phy_wide = phy_biomass %>% 
@@ -421,28 +431,10 @@ polygon(
   c(min(totb$doy), totb$doy , max(totb$doy)) , 
   c(0 , totb$totbiomass , 0),  col='#A2A1A6', border=F)
 
-# Figure Legends #=================
-# Zooplankton Legend 
-# Need to reverse taxa order to follow the order of the polygons above 
-taxa = rev(c(expression(italic('Daphnia')), expression(italic('Ceriodaphnia')),
-             expression(italic('Bosmina')), expression(italic('Chydorus')), 'Rotifera','Ostracoda','Calanoid', 'Cyclopoid', 'Nauplii'))
-# Need to reverse colors to match reverse above 
-col= rev(c("#c2a5cf", "#9970ab", "#762a83" ,"#40004b", "#f1b6da", '#f075c0', "#A2A1A6", '#6D6C70', '#3C3B3D'))
-windows(height=5, width=5)
-par(mai=c(0.9,1,0.6,1))
-plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
-legend("center", legend = taxa, 
-       pch=15, 
-       pt.cex=3, bty='n',
-       col = col, ncol=2)
-
 # Phytoplankton Legend 
-windows(height=5, width=5)
-par(mai=c(0.9,1,0.6,1))
-plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
-legend("center", legend = rev(c('Bacillariophyta','Chlorophyta', 'Chryso- & Cryptophytes', 
+legend(220,375, legend = rev(c('Bacillariophyta','Chlorophyta', 'Chryso-& Cryptophytes', 
                                 expression(italic('Aphanothece')), expression(italic('Microcystis')), 'Other Cyanophytes')), 
        pch=15, 
-       pt.cex=3, cex=1, bty='n',
+       pt.cex=1, cex=0.8,
        col = c("#00441b", "#5aae61","#d9f0d3", "#3C3B3D", '#6D6C70', '#A2A1A6'))
 
