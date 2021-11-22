@@ -10,9 +10,15 @@ graphics.off()
 # Required Libraries for analysis and visualization
 if (!require(tidyverse)) install.packages('tidyverse')
 library(tidyverse)
+if (!require(magrittr)) install.packages('magrittr')
+library(magrittr)
+if (!require(vegan)) install.packages('vegan')
+library(vegan)
+if (!require(RColorBrewer)) install.packages('RColorBrewer')
+library(RColorBrewer)
 
 # Set working directory to whichever file the datasets were saved to
-here::here() # Set to R project
+setwd("C:/Users/Owner/Box/Butts_Scripts/GV Grazing/chapter1-plankton-func")
 
 # Data sets
 # Zooplankton data #===============
@@ -59,5 +65,4 @@ gv_gald_length = read_csv('2019_gv_gald-length.csv')
 # Phytoplankton GALD v. Zooplankton bodymass 
 gv_gald_bodymass = read_csv('2019_gv_gald-bodymass.csv') 
 
-# ========== Metadata ================== # 
-
+# ========== Metadata ================== # - Need to describe this in the metadata 

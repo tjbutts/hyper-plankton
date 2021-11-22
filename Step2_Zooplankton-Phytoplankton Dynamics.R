@@ -246,9 +246,14 @@ taxa = rev(c(expression(italic('Daphnia')), expression(italic('Ceriodaphnia')),
              expression(italic('Bosmina')), expression(italic('Chydorus')), 'Rotifera','Ostracoda','Calanoid', 'Cyclopoid', 'Nauplii'))
 # Need to reverse colors to match reverse above 
 col= rev(c("#c2a5cf", "#9970ab", "#762a83" ,"#40004b", "#f1b6da", '#f075c0', "#A2A1A6", '#6D6C70', '#3C3B3D'))
-legend(170, 298, legend = taxa, 
-       pch=15, 
-       pt.cex=1.5, cex=0.8,
+
+# Create zooplankton legend 
+windows(height=5, width=5)
+par(mai=c(0.9,1,0.6,1))
+plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+legend('center', legend = taxa, 
+       pch=15, bty = 'n',
+       pt.cex=2.5, cex=0.8,
        col = col, ncol=2)
 
 # Phytoplankton Biomass Time Series #==========================
@@ -431,10 +436,14 @@ polygon(
   c(min(totb$doy), totb$doy , max(totb$doy)) , 
   c(0 , totb$totbiomass , 0),  col='#A2A1A6', border=F)
 
-# Phytoplankton Legend 
-legend(220,375, legend = rev(c('Bacillariophyta','Chlorophyta', 'Chryso-& Cryptophytes', 
-                                expression(italic('Aphanothece')), expression(italic('Microcystis')), 'Other Cyanophytes')), 
-       pch=15, 
-       pt.cex=1, cex=0.8,
+# Create Phytoplankton Legend 
+
+windows(height=5, width=5)
+par(mai=c(0.9,1,0.6,1))
+plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+legend('center', legend = rev(c('Bacillariophyta','Chlorophyta', 'Chryso-& Cryptophytes', 
+                               expression(italic('Aphanothece')), expression(italic('Microcystis')), 'Other Cyanophytes')), 
+       pch=15, bty='n',
+       pt.cex=2.5, cex=0.8,
        col = c("#00441b", "#5aae61","#d9f0d3", "#3C3B3D", '#6D6C70', '#A2A1A6'))
 
