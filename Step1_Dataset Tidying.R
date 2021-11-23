@@ -65,4 +65,5 @@ gv_gald_length = read_csv('2019_gv_gald-length.csv')
 # Phytoplankton GALD v. Zooplankton bodymass 
 gv_gald_bodymass = read_csv('2019_gv_gald-bodymass.csv') 
 
-# ========== Metadata ================== # - Need to describe this in the metadata 
+# ========== Metadata ================== #
+# Document uploaded in GitHub # 
