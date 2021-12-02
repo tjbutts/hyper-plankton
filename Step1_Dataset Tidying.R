@@ -18,7 +18,7 @@ if (!require(RColorBrewer)) install.packages('RColorBrewer')
 library(RColorBrewer)
 
 # Set working directory to whichever file the datasets were saved to
-setwd("C:/Users/Owner/Box/Butts_Scripts/GV Grazing/chapter1-plankton-func")
+
 
 # Data sets
 # Zooplankton data #===============
@@ -56,8 +56,6 @@ phy_grouping = read_csv('2019_gv_phytoplanktongrouping.csv')
 gv_nutrients = read_csv('2019_gv_nutrients.csv') 
 # High frequency EXO data 
 gv_exo_hf = read_csv('2019_highfrequency_gv_EXO3.csv') 
-# Thermocline/buoyancy frequency information 
-gv_met_buoy = read_csv('2019_gv_thermo-buoy.csv') 
 
 # Zooplankton-phytoplankton size data #=====================
 # Phytoplankton GALD v. Zooplankton length 

@@ -219,7 +219,7 @@ polygon(
   c(min(totb8$doy), totb8$doy , max(totb8$doy)) , 
   c(0, totb7$totbiomass , 0),  col='#9970ab', border=F)
 
-#Daphnia + Simocephalus polygon (grouped as Daphnia) 
+#Daphnia + Simocephalus polygon (Simocephalus grouped with Daphnia) 
 group_sums9 = group_sums %>% filter(!c(group == 'Nauplii' | 
                                          group == 'Cyclopoid' | 
                                          group == 'Calanoid' | 
@@ -246,15 +246,6 @@ taxa = rev(c(expression(italic('Daphnia')), expression(italic('Ceriodaphnia')),
              expression(italic('Bosmina')), expression(italic('Chydorus')), 'Rotifera','Ostracoda','Calanoid', 'Cyclopoid', 'Nauplii'))
 # Need to reverse colors to match reverse above 
 col= rev(c("#c2a5cf", "#9970ab", "#762a83" ,"#40004b", "#f1b6da", '#f075c0', "#A2A1A6", '#6D6C70', '#3C3B3D'))
-
-# Create zooplankton legend 
-windows(height=5, width=5)
-par(mai=c(0.9,1,0.6,1))
-plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
-legend('center', legend = taxa, 
-       pch=15, bty = 'n',
-       pt.cex=2.5, cex=0.8,
-       col = col, ncol=2)
 
 # Phytoplankton Biomass Time Series #==========================
 # Transform long form data to wide format, make column headers consistent, and prepare for join with phytoplankton group information
@@ -435,6 +426,17 @@ totb
 polygon(
   c(min(totb$doy), totb$doy , max(totb$doy)) , 
   c(0 , totb$totbiomass , 0),  col='#A2A1A6', border=F)
+
+# Create Legends #====================
+
+# Create zooplankton legend 
+windows(height=5, width=5)
+par(mai=c(0.9,1,0.6,1))
+plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+legend('center', legend = taxa, 
+       pch=15, bty = 'n',
+       pt.cex=2.5, cex=0.8,
+       col = col, ncol=2)
 
 # Create Phytoplankton Legend 
 

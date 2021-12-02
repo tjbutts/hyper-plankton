@@ -1,13 +1,13 @@
 ## Green Valley Zooplankton Nutrient Recycling Project ###
 # Code originally written by TJ Butts November 2021
 
-#================================================================##
-# STEP 4: QUANTIFY ZOOPLANKTON EXCRETION BASED ON BODY SIZE 
-#================================================================##
+#============================================================================================##
+# STEP 4: QUANTIFY ZOOPLANKTON EXCRETION BASED ON BODY SIZE & ZOOPLANKTON NUTRIENT TURNOVER 
+#============================================================================================##
 ## NOTE: Be sure to run Step1_Dataset Tidying first ## 
 
 # Excretion equations come from Hebert et al. 2016 # 
- # Hébert, M. P. et al. (2016). A meta-analysis of zooplankton functional traits influencing ecosystem function. Ecology, 97, 1069–1080.
+ # Hebert, M. P. et al. (2016). A meta-analysis of zooplankton functional traits influencing ecosystem function. Ecology, 97, 1069–1080.
 
 # First load in data extracted from Hebert et al. 2016, Ecology. Data were used for Ordinary Least
 # Squares Regression to determine the relationship between zooplankton body size and excretion rate # 
@@ -126,10 +126,11 @@ Hebert_tot_join_clean # excretion and density joined together
 
 # Do the summing step first before multiplying by density 
 Hebert_tot_exc_sum_e = Hebert_tot_join_clean %>% 
-  group_by(sampleid, doy, group) %>% # include larger taxonomic groupings together to not inflate rotifers 
+  group_by(sampleid, doy, group) %>% # include larger taxonomic groupings together
   summarise(dens_sum = sum(density), 
             Nexc_sum = sum(H4_ug_Nexcrete), 
-            Pexc_sum = sum(H4_ug_Pexcrete)) %>%
+            Pexc_sum = sum(H4_ug_Pexcrete)) %>% 
+  arrange(doy) %>%
   ungroup() %>%
   mutate(Nexcrete_d = Nexc_sum*dens_sum, 
          Pexcrete_d = Pexc_sum*dens_sum) %>%
@@ -262,14 +263,13 @@ gvl_inorg = gvl19 %>%
 gvl_inorg
 
 # Combine with excretion, including upper and lower # 
-# Isolate the average excretion 
-averageexc = Hebert_tot_exc_sum_e %>% 
+exc_estimate = Hebert_tot_exc_sum_e %>% 
   select(doy, H_ug_Nexcrete_sum_d, H_ug_Pexcrete_sum_d) %>%
   rename(Nexc = H_ug_Nexcrete_sum_d, 
          Pexc = H_ug_Pexcrete_sum_d)
-averageexc  
+exc_estimate 
 
-join = left_join(excretion_range, averageexc, by='doy')
+join = left_join(excretion_range, exc_estimate, by='doy')
 join
 
 join2 = left_join(join, gvl_inorg, by='doy')
@@ -336,3 +336,22 @@ legend("topright", legend =c('Nitrogen', 'Phosphorus'),
        pch=15, 
        pt.cex=1.5, cex=1, bty='n',
        col = c('dodgerblue3', 'orchid3'))
+
+
+# Calculate nutrient turnover # =====================
+gv_turnoverpools = gvl19 %>% # From Step3 
+  select(doy, SRP_ugL, TP_ugL, TN_mgL) %>%
+  filter(!(doy == 157)) # Remove the lost zooplankton sample from DOY 157
+gv_excretion = join2 %>% 
+  select(!c(SRP_ugL, NOx_mgL))
+
+turnover_join = left_join(gv_turnoverpools, gv_excretion, by = 'doy') # Combine excretion and nutrient concentrations
+turnover_join
+
+nutrient_turnover = turnover_join %>% 
+  mutate(SRPturn = SRP_ugL/Pexc, 
+         TPturn = TP_ugL/Pexc, 
+         TNturn = TN_mgL/(Nexc/1000))
+# Interpretation: Crustacean zooplankton could turnover water column total P/SRP/TN in X days. This calculates the 
+# number of days it would take for zooplankton to meet the water column concentration of the nutrient they are excreting 
+nutrient_turnover
