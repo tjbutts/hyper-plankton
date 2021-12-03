@@ -16,6 +16,12 @@ if (!require(vegan)) install.packages('vegan')
 library(vegan)
 if (!require(RColorBrewer)) install.packages('RColorBrewer')
 library(RColorBrewer)
+if (!require(ggridges)) install.packages('ggridges')
+library(ggridges) 
+if (!require(scales)) install.packages('scales')
+library(scales) 
+if (!require(ggpubr)) install.packages('ggpubr')
+library(ggpubr) 
 
 # Set working directory to whichever file the datasets were saved to
 
@@ -39,8 +45,7 @@ zp_raw = zp_dat %>%
          density = replace_na(density,0)) %>%
   arrange(doy)
 zp_raw$group = as.factor(zp_raw$group) # makes the group column a factor, easier for later analysis 
-# Zooplankton Sampling Information
-zp_log = read_csv('2019_site4_gv_zooplog.csv') 
+
 # Zooplankton Stoichiometry Data
 zp_stoich = read_csv('2019_zoop_cnpratios.csv')  
 

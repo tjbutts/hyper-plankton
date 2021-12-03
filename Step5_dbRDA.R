@@ -4,7 +4,7 @@
 #=================================================================================================##
 # STEP 5: REDUNDANCY ANALYSIS OF EXCRETION & ENVIRONMENTAL VARIABLES ON PHYTOPLANKTON COMMUNITY 
 #=================================================================================================##
-## NOTE: Be sure to run Step1_Dataset Tidying first ## 
+## NOTE: Be sure to run Steps 1-4 first ## 
 
 #Format phytoplankton community data #=============================
 phy_biomass

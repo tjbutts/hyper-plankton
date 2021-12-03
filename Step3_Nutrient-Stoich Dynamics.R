@@ -4,7 +4,7 @@
 #================================================================##
 # STEP 3: VISUALIZE NUTREINT DYNAMICS AND ORGANISM STOICHIOMETRY
 #================================================================##
-## NOTE: Be sure to run Step1_Dataset Tidying first ## 
+## NOTE: Be sure to run Steps 1-2 first ## 
 
 # Required Datasets 
 gv_nutrients # Surface water concentrations of total and dissolved N and P
@@ -148,7 +148,7 @@ gv_uM_stocks = gv_pools %>%
   as_tibble() 
 gv_uM_stocks
 
-# Plot figures
+# Plot figures #=========================================
 # Top Figure (A & C)
 windows(height=3, width=5.5)
 par(mfrow=c(1,2), mai=c(0.6,0.6,0.06,0.1))
@@ -247,3 +247,4 @@ legend("center", legend =c( 'Total P', 'Inorganic P', 'Organic P' ,'Zooplankton 
        pch=c(19, 17, 15, 18), 
        pt.cex=3, cex=1.5, bty='n',
        col = c('#c24ad7', '#d786e4', '#ebc3f2', 'gray60'))
+
