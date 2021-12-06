@@ -18,7 +18,8 @@ n_dat_comb.fw = read_csv('Hebert_extract_N_FW.csv') # Just Freshwater data
 p_dat_comb = read_csv('Hebert_extract_P.csv') # Freshwater and marine data 
 p_dat_comb.fw = read_csv('Hebert_extract_P_FW.csv') # Just Freshwater data 
 
-# Extracted N Data 
+# Extracted N Data
+par(mfrow=c(1,2), mai=c(0.6,0.6,0.06,0.1))
 plot(n_dat_comb$X,n_dat_comb$Y, ylab = 'ln(N excretion (nmol per ind. per hour))', xlab = 'ln(Dry Mass (mg))')
 mod.n = lm(Y~X, data=n_dat_comb)
 summary(mod.n)
@@ -31,7 +32,8 @@ summary(mod.n.fw)
 abline(mod.n.fw)
 abline(mod.n)
 
-# Extracted P Data # 
+# Extracted P Data #
+par(mfrow=c(1,2), mai=c(0.6,0.6,0.06,0.1))
 plot(p_dat_comb$X,p_dat_comb$Y, ylab = 'ln(p excretion (nmol per ind. per hour))', xlab = 'ln(Dry Mass (mg))')
 mod.p = lm(Y~X, data=p_dat_comb)
 summary(mod.p)
@@ -43,6 +45,9 @@ mod.p.fw = lm(Y~X, data=p_dat_comb.fw)
 summary(mod.p.fw)
 abline(mod.p.fw)
 abline(mod.p)
+
+# Turn off side by side plotting 
+graphics.off()
 
 # Freshwater data alone are not significant and the slope is similar to the slope of the freshwater + marine model # 
 # Going forward will just use the full freshwater+marine Hebert excretion model # 
@@ -321,8 +326,6 @@ upperbound_n = c(excretion_frac$Nf_upp)
 doy = c(excretion_frac$doy)
 x =c(doy, rev(doy))
 y= c(lowerbound_n, rev(upperbound_n))
-#lines(excretion_frac$doy, upperbound_n, type='l')
-#lines(excretion_frac$doy, lowerbound_n, type='l')
 polygon(x=x, y=y, col=ncol, border=F)
 lines(excretion_frac$doy, excretion_frac$Nf_mid, type='l', lwd=2, col='dodgerblue3')
 

@@ -195,15 +195,6 @@ points(gv_uM_stocks$doy, log10(gv_uM_stocks$orgN_uM+1), type = 'o', lwd=2,
 points(gv_uM_stocks$doy, log10(gv_uM_stocks$n_uM_zp+1), type = 'o', lwd=2,
        pch = 18, col = 'gray60', cex=1.5)
 
-# N Legend
-windows(height=5, width=5)
-par(mai=c(0.9,1,0.6,1))
-plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
-legend("center", legend =c( 'Total N', 'Inorganic N', 'Organic N', 'Zooplankton N'), 
-       pch=c(19, 17, 15, 18), 
-       pt.cex=3, cex=1.5, bty='n',
-       col = c('#004ebe','#2a81ff', '#94c0ff', 'gray60'))
-
 # Top Figure (B & D)
 windows(height=3, width=5.5)
 par(mfrow=c(1,2), mai=c(0.6,0.6,0.06,0.1))
@@ -238,6 +229,15 @@ points(gv_uM_stocks$doy, log10(gv_uM_stocks$orgP_uM+1), type = 'o', lwd=2,
        pch = 15, col = '#ebc3f2', cex=1.5)
 points(gv_uM_stocks$doy, log10(gv_uM_stocks$p_uM_zp+1), type ='o', lwd=2, 
        pch = 18, col = 'gray60', cex=1.5)
+
+# N Legend
+windows(height=5, width=5)
+par(mai=c(0.9,1,0.6,1))
+plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+legend("center", legend =c( 'Total N', 'Inorganic N', 'Organic N', 'Zooplankton N'), 
+       pch=c(19, 17, 15, 18), 
+       pt.cex=3, cex=1.5, bty='n',
+       col = c('#004ebe','#2a81ff', '#94c0ff', 'gray60'))
 
 # P Legend
 windows(height=5, width=5)

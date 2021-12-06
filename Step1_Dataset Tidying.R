@@ -24,7 +24,7 @@ if (!require(ggpubr)) install.packages('ggpubr')
 library(ggpubr) 
 
 # Set working directory to whichever file the datasets were saved to
-
+# setwd("C:/Users/Owner/Box/Butts_Scripts/GV Grazing/chapter1-plankton-func")
 
 # Data sets
 # Zooplankton data #===============
@@ -49,7 +49,6 @@ zp_raw$group = as.factor(zp_raw$group) # makes the group column a factor, easier
 # Zooplankton Stoichiometry Data
 zp_stoich = read_csv('2019_zoop_cnpratios.csv')  
 
-
 # Phytoplankton data # ======================
 # Phytoplankton Biomass Data 
 phy_biomass = read_csv('2019_site4_gv_PhytoBiomass_06Jun2021.csv') 
@@ -65,8 +64,14 @@ gv_exo_hf = read_csv('2019_highfrequency_gv_EXO3.csv')
 # Zooplankton-phytoplankton size data #=====================
 # Phytoplankton GALD v. Zooplankton length 
 gv_gald_length = read_csv('2019_gv_gald-length.csv') 
+
+# Supplemental #==========================
 # Phytoplankton GALD v. Zooplankton bodymass 
-gv_gald_bodymass = read_csv('2019_gv_gald-bodymass.csv') 
+gv_gald_bodymass = read_csv('2019_gv_gald-bodymass.csv')
+# Historical GVL data from the Ambient Lakes Monitoring Program
+alm_hist = read_csv('Historical_ALM.csv')
+zoop_hist = read_csv('zp_historical.csv')
+phyto_hist = read_csv('Historic Plankton Data.csv')
 
 # ========== Metadata ================== #
 # Document uploaded in GitHub # 

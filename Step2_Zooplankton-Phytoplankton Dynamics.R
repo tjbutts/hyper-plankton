@@ -450,48 +450,10 @@ legend('center', legend = rev(c('Bacillariophyta','Chlorophyta', 'Chryso-& Crypt
        col = c("#00441b", "#5aae61","#d9f0d3", "#3C3B3D", '#6D6C70', '#A2A1A6'))
 
 # Zooplankton: Phytoplankton Biomass Ratio #========================
-# Total biomass - filtered to pre 
-gv_phytotalbiom <- gv19_phy %>%
-  select(TAXON, BIOMASS.MG.L, Day, Treatment) %>%
-  group_by(Day, Treatment) %>%
-  summarise(
-    totalbiom = sum(BIOMASS.MG.L)) %>%
-  ungroup()
-as_tibble(gv_phytotalbiom)
-
-pre_phytotalbiom <- gv_phytotalbiom %>%
-  filter(Treatment == "Pre")
-pre_phytotalbiom 
-
-phy = pre_phytotalbiom %>% rename(phyb = totalbiom) %>% mutate(phyb = phyb*1000) %>% rename(doy = Day)
-phy
-
-# Set wd to raw data file 
-setwd("C:/Users/Owner/Box/Iowa Data/Biology Data/Zooplankton/2019 Green Valley Zooplankton")
-setwd("C:/Users/Tyler/Box Sync/Iowa Data/Biology Data/Zooplankton/2019 Green Valley Zooplankton")
-
-# Turn raw R output into a cleaned zoop data
-zp_raw <- read.csv('2019_site4_gv_ZoopBiomass_25Feb2021.csv')
-
-zp_raw2 <- zp_raw %>% # renames columns to better names 
-  rename(sampleid = SAMPLE.ID) %>%
-  rename(taxon = TAXON) %>%
-  rename(lakeno = LAKE.NO) %>%
-  rename(biomass = BIOMASS.UG.L) %>%
-  rename(group = GROUP) %>% 
-  rename(doy = DOY) %>%
-  filter(!(doy == 162 | doy == 157)) 
-zp_raw2$group <- as.factor(zp_raw2$group) # makes the group column a factor, easier for later analysis 
-as_tibble(zp_raw2)
-
-gv19_zp = zp_raw2 %>% select(sampleid,doy, taxon,group,biomass) %>% 
-  mutate(biomass = replace_na(biomass, 0)) %>% arrange(doy)
-as_tibble(gv19_zp)
-
 # Total Biomass 
 # Set working directory to folder containing datasets derived from raw data 
 zoop_biomass = group_sums # Zooplankton biomass information 
-phy_biomass = pdat # Phytoplankton biomass information 
+phyto_biomass = pdat # Phytoplankton biomass information 
 
 zoob_tot <- zoop_biomass %>% # Get total zooplankton biomass per day 
   group_by(doy) %>%
@@ -512,7 +474,7 @@ zoob = rbind(x,zoob_tot) %>% arrange(doy) %>% filter(!(doy==171))
 zoob
 
 # Format phytoplankton biomass 
-phyb = phy_biomass %>% # Get total phytoplankton biomass per day 
+phyb = phyto_biomass %>% # Get total phytoplankton biomass per day 
   group_by(doy) %>%
   summarise(
     phy_totalbiom = sum(totbiom)) %>% 
