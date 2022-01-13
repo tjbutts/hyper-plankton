@@ -340,8 +340,31 @@ Hebert_tot_exc_uM = Hebert_tot_exc_sum_e %>%
   rename(Nexc = H_ug_Nexcrete_sum_d, 
          Pexc = H_ug_Pexcrete_sum_d) %>% 
   mutate(Pexc_uM = (Pexc*1000000)/(1000000*30.97), # ug N or P per day per L to uM N or P per day  
-         Nexc_uM = (Nexc*1000000)/(1000000*14.01))
+         Nexc_uM = (Nexc*1000000)/(1000000*14.01)) %>%
+  select(doy, Pexc_uM, Nexc_uM)
 Hebert_tot_exc_uM  
+
+# Uncertainty # 
+Hebert_tot_exc_uM_upper = Hebert_tot_exc_sum_u %>% # Upper 
+  rename(Nexc = H_ug_Nexcrete_sum_d_upper, 
+         Pexc = H_ug_Pexcrete_sum_d_upper) %>%
+  mutate(Pexc_uM_u = (Pexc*1000000)/(1000000*30.97), # ug N or P per day per L to uM N or P per day  
+         Nexc_uM_u = (Nexc*1000000)/(1000000*14.01)) %>%
+  select(doy, Pexc_uM_u, Nexc_uM_u)
+Hebert_tot_exc_uM_upper
+
+Hebert_tot_exc_uM_lower = Hebert_tot_exc_sum_l %>% # Lower
+  rename(Nexc = H_ug_Nexcrete_sum_d_lower, 
+         Pexc = H_ug_Pexcrete_sum_d_lower) %>%
+  mutate(Pexc_uM_l = (Pexc*1000000)/(1000000*30.97), # ug N or P per day per L to uM N or P per day  
+         Nexc_uM_l = (Nexc*1000000)/(1000000*14.01)) %>%
+  select(doy, Pexc_uM_l, Nexc_uM_l)
+Hebert_tot_exc_uM_lower 
+
+uncert_join1 = left_join(Hebert_tot_exc_uM, Hebert_tot_exc_uM_upper)
+uncert= left_join(uncert_join1, Hebert_tot_exc_uM_lower) %>% 
+  select(doy, Nexc_uM, Nexc_uM_u, Nexc_uM_l, Pexc_uM, Pexc_uM_u, Pexc_uM_l)
+uncert
 
 # Wen and Peters excretion equations 
 zp_raw
