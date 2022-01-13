@@ -149,65 +149,29 @@ gv_uM_stocks = gv_pools %>%
 gv_uM_stocks
 
 # Plot figures #=========================================
-# Top Figure (A & C)
-windows(height=3, width=5.5)
-par(mfrow=c(1,2), mai=c(0.6,0.6,0.06,0.1))
-
-# Ecosystem Nutrient Ratios # 
-plot(gvl19$doy, log10(gvl19$org_NP), type = "o", lwd = 2, yaxt='n', xaxp = c(140,280, 7), xlim = c(120, 280), 
-     pch = 15, col = "gray30", ylim = c(log10(0.1), log10(1000)),
-     ylab = "", xlab = "",cex.axis = 1.1, cex=1.5)
-text(125, log10(200), "Phosphorus \nLimited", srt = 90, cex = 0.8)
-text(125, log10(1), "Nitrogen \nLimited", srt = 90, cex = 0.8)
-mtext('N:P', side = 2, line = 2, cex = 1)
-points(gvl19$doy, log10(gvl19$total_NP), 
-       type = "o", lwd = 2, col = "gray10", pch = 19, cex = 1.5)
-points(gvl19$doy, log10(gvl19$inorg_NP), 
-       type = "o", lwd = 2, col = "gray50", pch = 17, cex = 1.5)
-abline(log10(20),0, lty = 3, lwd = 2)
-legend("topright", legend = c("Total N:P", "Organic N:P", "Inorganic N:P"), bty='n',
-       pch = c(19, 15, 17),cex = 0.8 ,pt.cex = 1.5, col = c("gray10", "gray30", "gray50"))
-axis(side=2,
-     at=c(log10(1),
-          log10(2),log10(3),log10(4),log10(5),log10(6),log10(7),log10(8),log10(9),log10(10),
-          log10(20),log10(30),log10(40),log10(50),log10(60),log10(70),log10(80),log10(90),log10(100),
-          log10(200), log10(300), log10(400), log10(500), log10(600), log10(700), log10(800), log10(900), log10(1000)), #Where the tick marks should be drawn
-     labels = c('1', '', '','','','','','','','10','','','','','','','','','100', '', '', '','','','','','','1000'), las=2, cex.axis=1.1)
+# Top Figure (A & B)
+windows(height=3, width=6)
+par(mfrow=c(1,2), mai=c(0.6,0.5,0.06,0.05))
 
 # N uM
 # '#004ebe','#2a81ff', '#94c0ff'
 plot(gv_uM_stocks$doy, log10(gv_uM_stocks$totalN_uM+1),  type = "o", lwd = 2, yaxt='n', xlim = c(120, 280), xaxp = c(140,280,7),
      pch = 19, col = '#004ebe', ylim = c(log10(1), log10(500)),
-     ylab = expression(N~Concentration~"("*mu*M*")"), 
+     ylab = '', 
      xlab = "", cex = 1.5, cex.axis = 1.1)
-mtext(expression(N~Concentration~"("*mu*M*")"), side = 2, line = 2, cex = 1)
+mtext(expression(N~Concentration~"("*mu*M*")"), side = 2, line = 1.5, cex = 1)
 axis(side=2,
      at=c(log10(0.1), log10(0.2), log10(0.3), log10(0.4), log10(0.5), log10(0.6), log10(0.7), log10(0.8), 
           log10(0.9), log10(1),
           log10(2),log10(3),log10(4),log10(5),log10(6),log10(7),log10(8),log10(9),log10(10),
           log10(20),log10(30),log10(40),log10(50),log10(60),log10(70),log10(80),log10(90),log10(100),
           log10(200), log10(300), log10(400), log10(500), log10(600), log10(700), log10(800), log10(900), log10(1000)), #Where the tick marks should be drawn
-     labels = c('0.1','','','','','','','','','1', '', '','','','','','','','10','','','','','','','','','100', '', '', '','','','','','','1000'), las=2, cex.axis=1.1)
+     labels = c('0.1','','','','','','','','','1', '', '','','','','','','','10','','','','','','','','','100', '', '', '','','','','','','1000'), las=2, cex.axis=0.8)
 points(gv_uM_stocks$doy, log10(gv_uM_stocks$inorgN_uM+1), type = 'o', lwd=2, 
        pch = 17, col = '#2a81ff', cex=1.5)
-points(gv_uM_stocks$doy, log10(gv_uM_stocks$orgN_uM+1), type = 'o', lwd=2, 
-       pch = 15, col = '#94c0ff', cex=1.5)
 points(gv_uM_stocks$doy, log10(gv_uM_stocks$n_uM_zp+1), type = 'o', lwd=2,
        pch = 18, col = 'gray60', cex=1.5)
 
-# Top Figure (B & D)
-windows(height=3, width=5.5)
-par(mfrow=c(1,2), mai=c(0.6,0.6,0.06,0.1))
-# Zooplankton body nutrient ratios # 
-# Plot for Green Valley Lake Zooplankton N:P # 
-plot(zp_stoic_sum$doy, zp_stoic_sum$zp_np, type = 'o', xlim = c(120, 280), xaxp = c(140,280, 7),
-     pch=18, col='black', lwd=3, xlab='', ylab='', cex.axis = 1.1, yaxt='n') 
-mtext('Zooplankton N:P', side = 2, line=2, cex=1)
-mtext('Day of Year, 2019', side = 1, line =2, cex = 1)
-axis(side=2,
-     at=c(12,14,16,18,20,22,24),
-     labels = c('12','14','16','18','20','22','24'),
-     las=2, cex.axis=1,gap.axis = 0.2)
 
 # P uM
 # '#c24ad7', '#d786e4', '#ebc3f2'
@@ -220,31 +184,67 @@ axis(side=2,
           log10(0.9), log10(1),
           log10(2),log10(3),log10(4),log10(5),log10(6),log10(7),log10(8),log10(9),log10(10),
           log10(20)), #Where the tick marks should be drawn
-     labels = c('0.1','','','','','','','','','1', '', '','','','','','','','10','20'), las=2, cex.axis=1.1)
-mtext('Day of Year, 2019', side = 1, line =2, cex = 1)
-mtext(expression(P~Concentration~"("*mu*M*")"), side = 2, line = 2, cex = 1)
-points(gv_uM_stocks$doy, log10(gv_uM_stocks$inorgP_uM+1), type = 'o', lwd=2, 
+     labels = c('0.1','','','','','','','','','1', '', '','','','','','','','10','20'), las=2, cex.axis=0.8)
+mtext(expression(P~Concentration~"("*mu*M*")"), side = 2, line = 1.5, cex = 1)
+points(gv_uM_stocks$doy, log10(gv_uM_stocks$inorgP_uM+1), type = 'o', lwd=2.2, 
        pch = 17, col = '#d786e4', cex=1.5)
-points(gv_uM_stocks$doy, log10(gv_uM_stocks$orgP_uM+1), type = 'o', lwd=2, 
-       pch = 15, col = '#ebc3f2', cex=1.5)
 points(gv_uM_stocks$doy, log10(gv_uM_stocks$p_uM_zp+1), type ='o', lwd=2, 
        pch = 18, col = 'gray60', cex=1.5)
+
+# Bottom Figure (C & D)
+windows(height=3, width=6)
+par(mfrow=c(1,2), mai=c(0.6,0.5,0.06,0.05))
+
+# Ecosystem Nutrient Ratios # 
+plot(gvl19$doy, log10(gvl19$total_NP), type = "o", lwd = 2, yaxt='n', xaxp = c(140,280, 7), xlim = c(120, 280), 
+     pch = 19, col = "gray30", ylim = c(log10(0.1), log10(1000)),
+     ylab = "", xlab = "",cex.axis = 1.1, cex=1.5)
+text(125, log10(200), "Phosphorus \nLimited", srt = 90, cex = 0.8)
+text(125, log10(1), "Nitrogen \nLimited", srt = 90, cex = 0.8)
+mtext('N:P', side = 2, line = 1.5, cex = 1)
+points(gvl19$doy, log10(gvl19$inorg_NP), 
+       type = "o", lwd = 2, col = "gray50", pch = 17, cex = 1.5)
+abline(log10(20),0, lty = 3, lwd = 2)
+legend("topright", legend = c("Total N:P", "Inorganic N:P"), bty='n',
+       pch = c(19, 17),cex = 0.8 ,pt.cex = 1.5, col = c("gray30", "gray50"))
+axis(side=2,
+     at=c(log10(0.1),
+          log10(0.2),log10(0.3),log10(0.4),log10(0.5),log10(0.6),log10(0.7),log10(0.8),log10(0.9),
+          log10(1),
+          log10(2),log10(3),log10(4),log10(5),log10(6),log10(7),log10(8),log10(9),log10(10),
+          log10(20),log10(30),log10(40),log10(50),log10(60),log10(70),log10(80),log10(90),log10(100),
+          log10(200), log10(300), log10(400), log10(500), log10(600), log10(700), log10(800), log10(900), log10(1000)), #Where the tick marks should be drawn
+     labels = c('0.1', '', '','','','','','','','1', '', '','','','','','','','10','','','','','','','','','100', '', '', '','','','','','','1000'), las=2, cex.axis=0.8)
+mtext('Day of Year, 2019', side = 1, line =2, cex = 1)
+
+
+# Zooplankton body nutrient ratios # 
+# Plot for Green Valley Lake Zooplankton N:P # 
+plot(zp_stoic_sum$doy, zp_stoic_sum$zp_np, type = 'o', xlim = c(120, 280), xaxp = c(140,280, 7),
+     pch=18, col='gray60', lwd=2, xlab='', ylab='', cex.axis = 1.1, yaxt='n', cex=1.5) 
+mtext('Zooplankton N:P', side = 2, line=1.5, cex=1)
+mtext('Day of Year, 2019', side = 1, line =2, cex = 1)
+axis(side=2,
+     at=c(12,14,16,18,20,22,24),
+     labels = c('','','','','','',''),
+     las=2, cex.axis=0.8,gap.axis = 0.1)
+
 
 # N Legend
 windows(height=5, width=5)
 par(mai=c(0.9,1,0.6,1))
 plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
-legend("center", legend =c( 'Total N', 'Inorganic N', 'Organic N', 'Zooplankton N'), 
-       pch=c(19, 17, 15, 18), 
+legend("center", legend =c( 'Total N', 'Inorganic N', 'Zooplankton N'), 
+       pch=c(19, 17, 18), 
        pt.cex=3, cex=1.5, bty='n',
-       col = c('#004ebe','#2a81ff', '#94c0ff', 'gray60'))
+       col = c('#004ebe','#2a81ff', 'gray60'))
 
 # P Legend
 windows(height=5, width=5)
 par(mai=c(0.9,1,0.6,1))
 plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
-legend("center", legend =c( 'Total P', 'Inorganic P', 'Organic P' ,'Zooplankton P'), 
-       pch=c(19, 17, 15, 18), 
+legend("center", legend =c( 'Total P', 'Inorganic P' ,'Zooplankton P'), 
+       pch=c(19, 17, 18), 
        pt.cex=3, cex=1.5, bty='n',
-       col = c('#c24ad7', '#d786e4', '#ebc3f2', 'gray60'))
+       col = c('#c24ad7', '#d786e4', 'gray60'))
 

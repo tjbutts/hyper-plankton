@@ -277,6 +277,10 @@ exc_estimate
 join = left_join(excretion_range, exc_estimate, by='doy')
 join
 
+sd = join %>% mutate(N_sd = abs(Nexc-Nlow), 
+                     P_sd = abs(Nexc-Plow),
+                     sd_check = abs(Nexc-Nhigh))
+
 join2 = left_join(join, gvl_inorg, by='doy')
 join2
 
