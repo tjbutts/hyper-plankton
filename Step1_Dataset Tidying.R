@@ -22,6 +22,8 @@ if (!require(scales)) install.packages('scales')
 library(scales) 
 if (!require(ggpubr)) install.packages('ggpubr')
 library(ggpubr) 
+if (!require(lubridate)) install.packages('lubridate')
+library(lubridate) 
 
 # Set working directory to whichever file the datasets were saved to
 # setwd("C:/Users/Owner/Box/Butts_Scripts/GV Grazing/chapter1-plankton-func")
