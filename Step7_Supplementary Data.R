@@ -313,7 +313,8 @@ mod1 = lm(g~l, data = m1)
 print(mod1)
 summary(mod1)
 
-graphics.off()
+## Clear previous graphing input ##==================================
+graphics.off() # Turn graphics off, clear all plots 
 windows(height=4, width=6)
 par(mfrow=c(1,2), mai=c(0.9,0.9,0.5,0.2))
 with(m1, plot(l,g,  col=ncol, cex = 1.5, pch=19, cex.lab=1.1, ylab = 'Phytoplankton GALD', xlab = 'Zooplankton Length'))

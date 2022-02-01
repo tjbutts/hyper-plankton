@@ -449,7 +449,7 @@ legend('center', legend = rev(c('Bacillariophyta','Chlorophyta', 'Chryso-& Crypt
        pt.cex=2.5, cex=0.8,
        col = c("#00441b", "#5aae61","#d9f0d3", "#3C3B3D", '#6D6C70', '#A2A1A6'))
 
-# Zooplankton: Phytoplankton Biomass Ratio #========================
+# Zooplankton to Phytoplankton Biomass percentage #========================
 # Total Biomass 
 # Set working directory to folder containing datasets derived from raw data 
 zoop_biomass = group_sums # Zooplankton biomass information 

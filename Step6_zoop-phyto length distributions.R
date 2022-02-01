@@ -36,7 +36,7 @@ p1 = ggplot(
   theme(panel.border = element_blank(), panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) + 
   theme(axis.text = element_text(size =11, colour = 'black')) + 
-  xlab(label = bquote(Length~(mu*g/L))) + 
+  xlab(label = bquote(Length~(mu*m))) + 
   ylab(label = 'Day of Year, 2019') +
   scale_fill_cyclical( # Create a gradient color scheme to differentiate time 
     breaks = c("gald", "length"),
