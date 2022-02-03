@@ -15,7 +15,6 @@ zp_raw # Zooplankton Biomass data
 #Subset to the study year, site, and surface depth 
 gvl19 = gv_nutrients %>%
   filter(year==2019, siteID==4, depthID==1) %>%
-  filter(project=="GVLmonitoring") %>%
   select(doy:SRP_ugL, TP_ugL, TN_mgL, NOx_mgL) %>%
   filter(!(doy == 162))
 gvl19

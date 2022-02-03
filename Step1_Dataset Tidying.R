@@ -53,7 +53,7 @@ zp_stoich = read_csv('2019_zoop_cnpratios.csv')
 
 # Phytoplankton data # ======================
 # Phytoplankton Biomass Data 
-phy_biomass = read_csv('2019_site4_gv_PhytoBiomass_06Jun2021.csv') 
+phy_biomass = read_csv('2019_site4_gv_phydata.csv') 
 # Phytoplankton Grouping Information
 phy_grouping = read_csv('2019_gv_phytoplanktongrouping.csv')  
 
