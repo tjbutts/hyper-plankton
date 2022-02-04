@@ -13,10 +13,6 @@
 # Squares Regression to determine the relationship between zooplankton body size and excretion rate # 
 
 # Determine error coefficients for allometric equations #====================
-n_dat_comb = read_csv('Hebert_extract_N.csv') # Freshwater and marine data 
-n_dat_comb.fw = read_csv('Hebert_extract_N_FW.csv') # Just Freshwater data 
-p_dat_comb = read_csv('Hebert_extract_P.csv') # Freshwater and marine data 
-p_dat_comb.fw = read_csv('Hebert_extract_P_FW.csv') # Just Freshwater data 
 
 # Extracted N Data
 par(mfrow=c(1,2), mai=c(0.6,0.6,0.06,0.1))

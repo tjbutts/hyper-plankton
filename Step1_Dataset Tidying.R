@@ -63,6 +63,12 @@ gv_nutrients = read_csv('2019_gv_nutrients.csv')
 # High frequency EXO data 
 gv_exo_hf = read_csv('2019_highfrequency_gv_EXO3.csv') 
 
+# Zooplankton Excretion Data from Hebert et al. 2016 #====================
+n_dat_comb = read_csv('Hebert_extract_N.csv') # Freshwater and marine data 
+n_dat_comb.fw = read_csv('Hebert_extract_N_FW.csv') # Just Freshwater data 
+p_dat_comb = read_csv('Hebert_extract_P.csv') # Freshwater and marine data 
+p_dat_comb.fw = read_csv('Hebert_extract_P_FW.csv') # Just Freshwater data 
+
 # Zooplankton-phytoplankton size data #=====================
 # Phytoplankton GALD v. Zooplankton length 
 gv_gald_length = read_csv('2019_gv_gald-length.csv') 

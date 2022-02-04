@@ -6,7 +6,6 @@
 #============================================================================================##
 
 # Dataset # 
-gv_nutrients
 # Historical GV Data #============================ 
 # Run Breakpoint analysis to determine early - late season dynamic 
 
