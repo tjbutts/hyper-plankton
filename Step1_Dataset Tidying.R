@@ -29,10 +29,11 @@ library(lubridate)
 # setwd("C:/Users/Owner/Box/Butts_Scripts/GV Grazing/chapter1-plankton-func")
 
 # Data sets
-# Zooplankton data #===============
+# Zooplankton data #==============
 
 #Zooplankton Biomass (ug/L), Average Dry Mass (ug), and Density (#/L)
 zp_dat = read_csv('2019_site4_gv_zoopdata.csv') # Need to tidy data
+zp_dat
 zp_raw = zp_dat %>%
   rename(sampleid = SAMPLE.ID) %>% # Rename columns for convenience 
   rename(taxon = TAXON) %>%
