@@ -16,7 +16,7 @@ zp_raw # Zooplankton Biomass data
 gvl19 = gv_nutrients %>%
   filter(year==2019, siteID==4, depthID==1) %>%
   select(doy:SRP_ugL, TP_ugL, TN_mgL, NOx_mgL) %>%
-  filter(!(doy == 162))
+  filter(!(doy == 162)) # DOY Removed to match with zooplankton data 
 gvl19
 
 # Replace 0s in SRP and NOx estimate with detection limit/2 of AQ2 (3.9 and 0.03, respectively) 
