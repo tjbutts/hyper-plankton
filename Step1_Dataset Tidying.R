@@ -78,7 +78,7 @@ gv_gald_length = read_csv('2019_gv_gald-length.csv')
 # Phytoplankton GALD v. Zooplankton bodymass 
 gv_gald_bodymass = read_csv('2019_gv_gald-bodymass.csv')
 # Historical GVL data from the Ambient Lakes Monitoring Program
-alm_hist = read_csv('Historical_ALM.csv')
+alm_hist = read_csv('gv_alm_historical.csv')
 zoop_hist = read_csv('zp_historical.csv')
 phyto_hist = read_csv('Historic Plankton Data.csv')
 
