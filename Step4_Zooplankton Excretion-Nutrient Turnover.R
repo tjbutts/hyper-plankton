@@ -335,22 +335,3 @@ legend("topright", legend =c('Nitrogen', 'Phosphorus'),
        pch=15, 
        pt.cex=1.5, cex=1, bty='n',
        col = c('dodgerblue3', 'orchid3'))
-
-
-# Calculate nutrient turnover # =====================
-gv_turnoverpools = gvl19 %>% # From Step3 
-  select(doy, SRP_ugL, TP_ugL, TN_mgL) %>%
-  filter(!(doy == 157)) # Remove the lost zooplankton sample from DOY 157
-gv_excretion = join2 %>% 
-  select(!c(SRP_ugL, NOx_mgL))
-
-turnover_join = left_join(gv_turnoverpools, gv_excretion, by = 'doy') # Combine excretion and nutrient concentrations
-turnover_join
-
-nutrient_turnover = turnover_join %>% 
-  mutate(SRPturn = SRP_ugL/Pexc, 
-         TPturn = TP_ugL/Pexc, 
-         TNturn = TN_mgL/(Nexc/1000))
-# Interpretation: Crustacean zooplankton could turnover water column total P/SRP/TN in X days. This calculates the 
-# number of days it would take for zooplankton to meet the water column concentration of the nutrient they are excreting 
-nutrient_turnover

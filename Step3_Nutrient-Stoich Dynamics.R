@@ -14,7 +14,7 @@ zp_raw # Zooplankton Biomass data
 # Calculate Green Valley Lake Organic and Inorganic Stocks # 
 #Subset to the study year, site, and surface depth 
 gvl19 = gv_nutrients %>%
-  filter(year==2019, siteID==4, depthID==1) %>%
+  filter(year==2019, siteID==4, sampleDepth == 0.25) %>%
   select(doy:SRP_ugL, TP_ugL, TN_mgL, NOx_mgL) %>%
   filter(!(doy == 162)) # DOY Removed to match with zooplankton data 
 gvl19
