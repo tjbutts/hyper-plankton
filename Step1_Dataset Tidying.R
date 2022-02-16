@@ -80,7 +80,7 @@ gv_gald_bodymass = read_csv('2019_gv_gald-bodymass.csv')
 # Historical GVL data from the Ambient Lakes Monitoring Program
 alm_hist = read_csv('gv_alm_historical.csv')
 zoop_hist = read_csv('zp_historical.csv')
-phyto_hist = read_csv('Historic Plankton Data.csv')
+phyto_hist = read_csv('gv_plankton_historical.csv')
 
 # ========== Metadata ================== #
 # Document uploaded in GitHub # 

@@ -154,7 +154,6 @@ lines(c(2011,2019), c(log10(82.74), log10(82.73)), lwd=4, col='seagreen4')
 
 # Phytoplankton
 
-phyto_hist 
 phyto_clean = phyto_hist %>%
   filter(Year > 2010) %>% # Separate into post 2010 after a large lake renovation where two large silk dikes were put in
   select(Year, DOYFrac, PhytoBiomass, Cyanophyta) %>%
