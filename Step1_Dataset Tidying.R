@@ -83,4 +83,4 @@ zoop_hist = read_csv('zp_historical.csv')
 phyto_hist = read_csv('gv_plankton_historical.csv')
 
 # ========== Metadata ================== #
-# Document uploaded in GitHub # 
+# Document uploaded in GitHub: 'GREEN VALLEY 2019 SAMPLING METADATA' # 
