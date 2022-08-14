@@ -1,63 +1,19 @@
 ## Green Valley Zooplankton Nutrient Recycling Project ###
-# Code originally written by TJ Butts November 2021
+# Code originally written by TJ Butts August 2022
 
 #============================================================================================##
-# STEP 4.5: QUANTIFY ZOOPLANKTON EXCRETION WITH AND WITHOUT ROTIFERS 
+# STEP 4.5: QUANTIFY ZOOPLANKTON EXCRETION
 #============================================================================================##
 ## NOTE: Be sure to run Steps 1-3 first ## 
 
-# Excretion equations come from Hebert et al. 2016 # 
-# Hebert, M. P. et al. (2016). A meta-analysis of zooplankton functional traits influencing ecosystem function. Ecology, 97, 1069–1080.
+## Error estimates from Hebert et al. 2016 allometric equations of zooplankton excretion
+    ## Hebert, M. P. et al. (2016). A meta-analysis of zooplankton functional traits influencing ecosystem function. Ecology, 97, 1069–1080.
 
-# First load in data extracted from Hebert et al. 2016, Ecology. Data were used for Ordinary Least
-# Squares Regression to determine the relationship between zooplankton body size and excretion rate # 
-
-# Determine error coefficients for allometric equations #====================
-## Just have these error coefficients, don't need to show these data ## ===== FIX FIX 
-# Extracted N Data
-par(mfrow=c(1,2), mai=c(0.6,0.6,0.06,0.1))
-plot(n_dat_comb$X,n_dat_comb$Y, ylab = 'ln(N excretion (nmol per ind. per hour))', xlab = 'ln(Dry Mass (mg))')
-mod.n = lm(Y~X, data=n_dat_comb)
-summary(mod.n)
-abline(mod.n)
-
-# Freshwater N Data # 
-plot(n_dat_comb.fw$X,n_dat_comb.fw$Y, ylab = 'ln(N excretion (nmol per ind. per hour))', xlab = 'ln(Dry Mass (mg))')
-mod.n.fw = lm(Y~X, data=n_dat_comb.fw)
-summary(mod.n.fw)
-abline(mod.n.fw)
-abline(mod.n)
-
-# Extracted P Data #
-par(mfrow=c(1,2), mai=c(0.6,0.6,0.06,0.1))
-plot(p_dat_comb$X,p_dat_comb$Y, ylab = 'ln(p excretion (nmol per ind. per hour))', xlab = 'ln(Dry Mass (mg))')
-mod.p = lm(Y~X, data=p_dat_comb)
-summary(mod.p)
-abline(mod.p)
-
-# Freshwater P Data # 
-plot(p_dat_comb.fw$X,p_dat_comb.fw$Y, ylab = 'ln(p excretion (nmol per ind. per hour))', xlab = 'ln(Dry Mass (mg))')
-mod.p.fw = lm(Y~X, data=p_dat_comb.fw)
-summary(mod.p.fw)
-abline(mod.p.fw)
-abline(mod.p)
-
-# Turn off side by side plotting 
-graphics.off()
-
-# Freshwater data alone are not significant and the slope is similar to the slope of the freshwater + marine model # 
-# Going forward will just use the full freshwater+marine Hebert excretion model # 
-
-# For output of other allometric equations (Wen & Peters 1994) or just the freshwater model, see 
-# Step 7_Supplemental Info 
-
-# Estimated zooplankton N and P data #
-
-# Error propagation for y = mx + b # ================
+# Error propagation for y = mx + b #
 # find uncertainty of b (intercept), find uncertainty of m (slope)# 
 # Uncertainty of y = square root(uncertainty of m + uncertainty of b) # 
 
-# Hebert N uncertainty 
+# Hebert N Equation uncertainty 
 N_interr = sqrt(0.17422^2) # error of the intercept 
 N_slopeerr = 0.06002*sqrt((0.06002/0.84)^2) # error of the slope 
 N_uncert = sqrt(N_slopeerr + N_interr)
@@ -66,6 +22,9 @@ N_uncert = sqrt(N_slopeerr + N_interr)
 P_interr = sqrt(0.19657^2) # error of the intercept 
 P_slopeerr = 0.06304*sqrt((0.06304/0.69380)^2) # error of the slope 
 P_uncert = sqrt(P_slopeerr + P_interr)
+
+# Estimate Zooplankton Excretion - Excluding Rotifers #======================
+## Rotifers were not included in the original allometric equations. 
 
 # get the dry biomass (in micrograms) per taxa per day of year 
 gv19_DM = zp_raw %>%
@@ -347,22 +306,3 @@ axis(1, at=c(140,152,182,
 mtext(side=1, 'Day of Year, 2019', line=3, cex=1)
 axis(side=2, at=c(0,20, 40, 60, 80), labels=F, tick=T)
 text(x=215, y=75, labels = 'Phosphorus', font=2, col='orchid3')
-
-# N:P Ratio plot # 
-Hebert_tot_exc_sum_e # ug N or P per day per L, estimate from Step4
-
-# Convert to uM # 
-Hebert_tot_exc_uM = Hebert_tot_exc_sum_e %>%
-  rename(Nexc = H_ug_Nexcrete_sum_d, 
-         Pexc = H_ug_Pexcrete_sum_d) %>% 
-  mutate(Pexc_uM = (Pexc*1000000)/(1000000*30.97), # ug N or P per day per L to uM N or P per day  
-         Nexc_uM = (Nexc*1000000)/(1000000*14.01)) %>% 
-  mutate(NP_molar = Nexc_uM/Pexc_uM) %>%
-  select(doy, Pexc_uM, Nexc_uM, NP_molar)
-Hebert_tot_exc_uM 
-
-windows(height = 4, width = 6)
-plot(Hebert_tot_exc_uM $doy, Hebert_tot_exc_uM$NP_molar , type='l', xlim=c(140,280), col='black', lwd=3,
-     cex.axis=1.1, cex=1.5, ylim = c(0,5),  xlab='', ylab='')
-mtext(side=1, 'Day of Year, 2019', line=3, cex=1)
-mtext(side=2, 'Zooplankton excretion N:P', line=2.5, cex=1)
