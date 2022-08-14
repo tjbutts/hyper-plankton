@@ -7,7 +7,6 @@
 
 # Dataset # 
 # Historical GV Data #============================ 
-# Run Breakpoint analysis to determine early - late season dynamic 
 
 # 
 alm_hist # Total GV Data 2000 - 2019 
@@ -67,17 +66,17 @@ points(alm_nhx_l[alm_nhx_l$analyte=="Ammonia-nitrogen (as N)", "DOYFrac"], alm_n
 
 alm_pre_e = alm_nhx_e %>% filter(Year <2016)
 mean(alm_pre_e[alm_pre_e$analyte=="Ammonia-nitrogen (as N)", "result"], na.rm = T)
-lines(c(2011,2015), c(5.42, 5.42), lwd=4, col="dodgerblue4")
+#lines(c(2011,2015), c(5.42, 5.42), lwd=4, col="dodgerblue4")
 alm_pre_l = alm_nhx_l %>% filter(Year <2016)
 mean(alm_pre_l[alm_pre_l$analyte=="Ammonia-nitrogen (as N)", "result"], na.rm = T)
-lines(c(2011,2015), c(11.74, 11.74), lwd=4, col='seagreen4')
+#lines(c(2011,2015), c(11.74, 11.74), lwd=4, col='seagreen4')
 
 alm_post_e = alm_nhx_e %>% filter(Year >2015)
 mean(alm_post_e[alm_post_e$analyte=="Ammonia-nitrogen (as N)", "result"], na.rm = T)
-lines(c(2016,2019), c(1.56, 1.56), lwd=4, col="dodgerblue4")
+#lines(c(2016,2019), c(1.56, 1.56), lwd=4, col="dodgerblue4")
 alm_post_l = alm_nhx_l %>% filter(Year >2015)
 mean(alm_post_l[alm_post_l$analyte=="Ammonia-nitrogen (as N)", "result"], na.rm = T)
-lines(c(2016,2019), c(0.632, 0.632), lwd=4, col='seagreen4')
+#lines(c(2016,2019), c(0.632, 0.632), lwd=4, col='seagreen4')
 
 legend('topright', legend=c('DOY < 170', 'DOY > 170'), cex=1.1, pch=c(15,19), col=c(ncol, ccol))
 
@@ -93,9 +92,9 @@ alm_tp_l = alm_tp %>% filter(season == 'late') %>% as.data.frame()
 points(alm_tp_l[alm_tp_l$analyte=="Total Phosphorus", "DOYFrac"], alm_tp_l[alm_tp_l$analyte=="Total Phosphorus", "result"], pch=19, col=ccol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020))
 
 mean(alm_tp_e[alm_tp_e$analyte=="Total Phosphorus", "result"], na.rm = T)
-lines(c(2011,2019), c(3.68, 3.68), lwd=4, col="dodgerblue4")
+#lines(c(2011,2019), c(3.68, 3.68), lwd=4, col="dodgerblue4")
 mean(alm_tp_l[alm_tp_l$analyte=="Total Phosphorus", "result"], na.rm = T)
-lines(c(2011,2019), c(9.88, 9.88), lwd=4, col='seagreen4')
+#lines(c(2011,2019), c(9.88, 9.88), lwd=4, col='seagreen4')
 
 #Soluble Reactive P
 alm_srp = alm %>% filter(analyte == 'Orthophosphate (as P)') %>%
@@ -109,9 +108,9 @@ alm_srp_l = alm_srp %>% filter(season == 'late') %>% as.data.frame()
 points(alm_srp_l[alm_srp_l$analyte=="Orthophosphate (as P)", "DOYFrac"], alm_srp_l[alm_srp_l$analyte=="Orthophosphate (as P)", "result"], pch=19, col=ccol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020))
 
 mean(alm_srp_e[alm_srp_e$analyte=="Orthophosphate (as P)", "result"], na.rm = T)
-lines(c(2011,2019), c(0.747, 0.747), lwd=4, col="dodgerblue4")
+#lines(c(2011,2019), c(0.747, 0.747), lwd=4, col="dodgerblue4")
 mean(alm_srp_l[alm_srp_l$analyte=="Orthophosphate (as P)", "result"], na.rm = T)
-lines(c(2011,2019), c(4.426, 4.426), lwd=4, col='seagreen4')
+#lines(c(2011,2019), c(4.426, 4.426), lwd=4, col='seagreen4')
 
 #Fixed Suspended Solids 
 alm_e = alm %>% filter(season == 'early') %>% as.data.frame()
@@ -120,9 +119,9 @@ alm_l = alm %>% filter(season == 'late') %>% as.data.frame()
 points(alm_l[alm_l$analyte=="Fixed suspended solids", "DOYFrac"], alm_l[alm_l$analyte=="Fixed suspended solids", "result"], pch=19, col=ccol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020))
 
 mean(alm_e[alm_e$analyte=="Fixed suspended solids", "result"], na.rm = T)
-lines(c(2011,2019), c(4.97, 4.97), lwd=4, col="dodgerblue4")
+#lines(c(2011,2019), c(4.97, 4.97), lwd=4, col="dodgerblue4")
 mean(alm_l[alm_l$analyte=="Fixed suspended solids", "result"], na.rm = T)
-lines(c(2011,2019), c(8.35, 8.35), lwd=4, col='seagreen4')
+#lines(c(2011,2019), c(8.35, 8.35), lwd=4, col='seagreen4')
 
 # Plankton Data 
 zoop_hist 
@@ -149,9 +148,9 @@ axis(side=2, at=c(log10(1), log10(2), log10(3), log10(4), log10(5), log10(6), lo
      labels=c("1","","","","","","","","","10","","","","","","","","","100","","","","","","","","","1000",'2000'), las=3, cex.lab=1.1)
 
 mean(zoop_clean_e$biomass, na.rm = T)
-lines(c(2011,2019), c(log10(223.74), log10(223.74)), lwd=4, col="dodgerblue4")
+#lines(c(2011,2019), c(log10(223.74), log10(223.74)), lwd=4, col="dodgerblue4")
 mean(zoop_clean_l$biomass, na.rm = T)
-lines(c(2011,2019), c(log10(82.74), log10(82.73)), lwd=4, col='seagreen4')
+#lines(c(2011,2019), c(log10(82.74), log10(82.73)), lwd=4, col='seagreen4')
 
 # Phytoplankton
 
@@ -177,9 +176,9 @@ axis(side=2, at=c(log10(1), log10(2), log10(3), log10(4), log10(5), log10(6), lo
      labels=c("1","","","","","","","","","10","","","","","","","","","100","","","","","","","","","1000", '2000'), las=3, cex.lab=1.3)
 
 mean(phyto_e$non_Cyanophyta, na.rm = T)
-lines(c(2011,2019), c(log10(15.41), log10(15.41)), lwd=4, col="dodgerblue4")
+#lines(c(2011,2019), c(log10(15.41), log10(15.41)), lwd=4, col="dodgerblue4")
 mean(phyto_l$non_Cyanophyta, na.rm = T)
-lines(c(2011,2019), c(log10(5.11), log10(5.11)), lwd=4, col='seagreen4')
+#lines(c(2011,2019), c(log10(5.11), log10(5.11)), lwd=4, col='seagreen4')
 
 # Cyanophyta
 plot(phyto_e$DOYFrac, log10(phyto_e$Cyanophyta), col=ncol, pch=15, cex=1.5, yaxt="n", xlab="", cex.axis=1.1, xlim=c(2010,2020),ylab=expression(Cyanos~"("*mg~L^-1*")"), cex.lab=1.4, ylim=c(log10(1), log10(2000)))
@@ -189,9 +188,9 @@ axis(side=2, at=c(log10(1), log10(2), log10(3), log10(4), log10(5), log10(6), lo
      labels=c("1","","","","","","","","","10","","","","","","","","","100","","","","","","","","","1000", '2000'), las=3, cex.lab=1.3)
 
 mean(phyto_e$Cyanophyta, na.rm = T)
-lines(c(2011,2019), c(log10(275.24), log10(275.24)), lwd=4, col="dodgerblue4") # Mean of early 
+#lines(c(2011,2019), c(log10(275.24), log10(275.24)), lwd=4, col="dodgerblue4") # Mean of early 
 mean(phyto_l$Cyanophyta, na.rm = T)
-lines(c(2011,2019), c(log10(195.12), log10(195.12)), lwd=4, col='seagreen4') # Mean of late 
+#lines(c(2011,2019), c(log10(195.12), log10(195.12)), lwd=4, col='seagreen4') # Mean of late 
 
 # Calculate nutrient turnover # =====================
 gv_turnoverpools = gvl19 %>% # From Step3 
@@ -367,7 +366,7 @@ par(mai=c(0.9,0.3,0.5,0.9))
 with(m2, plot(m,g,  col=ncol, cex = 1.5, pch=19, cex.lab=1.1, ylab = '', xlab = 'Zooplankton Body Mass'))
 abline(mod2)
 
-# Zooplankton Excretion #=====================================
+# Zooplankton Excretion Hebert and Wen and Peters estimation #=====================================
 Hebert_tot_exc_sum_e # ug N or P per day per L, estimate from Step4
 
 # Convert to uM # 
@@ -534,3 +533,69 @@ plot(Hebert_tot_exc_uM $doy, Hebert_tot_exc_uM$NP_molar , type='l', xlim=c(140,2
      cex.axis=1.1, cex=1.5, ylim = c(0,5),  xlab='', ylab='')
 mtext(side=1, 'Day of Year, 2019', line=3, cex=1)
 mtext(side=2, 'Zooplankton excretion N:P', line=2.5, cex=1)
+
+# PLOT: % GALD within zooplankton community feeding range #======================
+
+fsr_lines_min = data.frame(doyfct = doyfct_select2, 
+                           x0 = c(zp_fsr_weighted$wm_min))
+fsr_lines_max = data.frame(doyfct = doyfct_select2, 
+                           x1 = c(zp_fsr_weighted$wm_max))
+
+ridge
+zp_fsr_weighted2 = zp_fsr_weighted %>% select(!(doyfct))
+
+gald_range = ridge %>% filter(measure == 'gald')
+gald_range
+
+join_fsr = left_join(gald_range, zp_fsr_weighted2, by ='doy')
+join_fsr 
+
+fsr_percent = join_fsr %>% 
+  mutate(within_range = case_when(value >= wm_min & value <= wm_max ~ 'within'))
+fsr_percent$within_range = fsr_percent$within_range %>% replace_na('outside') 
+fsr_percent2 = fsr_percent %>% 
+  mutate(count = 1)
+fsr_percent2
+
+fsr_percent_wide = fsr_percent2 %>% # Make the value inside or outside of the feeding range a categorical variable
+  select(doy, within_range, count) %>% 
+  mutate(row = seq.int(nrow(fsr_percent2))) %>%
+  pivot_wider(names_from = within_range, values_from = count)
+fsr_percent_wide[is.na(fsr_percent_wide)] <- 0
+fsr_percent_wide
+
+fsr_percent_wide$within = factor(fsr_percent_wide$within, c(0,1), labels = c('outside', 'within'))
+fsr_percent_wide$doy = factor(fsr_percent_wide$doy)
+
+cross = table(fsr_percent_wide$within, fsr_percent_wide$doy)
+cross
+
+percents = round(prop.table(cross, 2)*100, digits=0)
+percents.m = as.matrix(percents)
+percents = percents.m[, c(1,2,4,5,6,7,8,9,10,11,12,13,15,16)]
+percents
+
+doy = c(143,150,164, 172, 178, 192, 199, 206, 211,213,220,227,245,251)
+percent_within = c(53,38,13,4,37,0,3,25,38,65,68,50,87,74)
+fsr_percent_fin = as.data.frame(percent_within, row.names = doy)
+fsr_percent_fin$doy = doy
+fsr_percent_fin = fsr_percent_fin %>% 
+  select(doy, percent_within) %>%
+  mutate(doy = as.factor(doy)) %>%
+  as.data.frame()
+fsr_percent_fin
+
+windows(height=3, width=5)
+par(mai=c(0.9,0.9,0.6,0.5))
+barplot(percents, col = c('black', 'gray90'))
+box()
+mtext(side=2, text='Percent GALD', line=2.5)
+mtext(side=1, text='Day of Year, 2019', line = 2.5)
+
+windows(height=5, width=5)
+par(mai=c(0.9,1,0.6,1))
+plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+legend('center', legend = c('Within', 'Outside'), 
+       pch=15,
+       pt.cex=2.5, cex=0.8,
+       col = c('gray90', 'black'))
