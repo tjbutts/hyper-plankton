@@ -548,12 +548,17 @@ gv_length_mass = dt3
 # Zooplankton Stoichiometry Data # 
 ## Stoichiometric data of Zooplankton was collected from the literature using the same methods as Moody & Wilkinson 2019, 
 ## Data from: Hamre, 2016; Hébert et al. 2016; Hessen et al. 2007 
-##Hamre, K. (2016) Nutrient profiles of rotifers (Brachionus sp.) and rotifer diets from four different marine fish hatcheries. Aquaculture, 450, 136–142.
-##Hébert, M. P. et al. (2016a) A compilation of quantitative functional traits for marine and freshwater crustacean zooplankton. Ecology, 97, 1081.
-##Hessen, D. O. et al. (2007) RNA responses to N- and P-limitation; reciprocal regulation of stoichiometry and growth rate in Brachionus. Funct. Ecol., 21, 956–962.
+    ##Hamre, K. (2016) Nutrient profiles of rotifers (Brachionus sp.) and rotifer diets from four different marine fish hatcheries. Aquaculture, 450, 136–142.
+    ##Hébert, M. P. et al. (2016a) A compilation of quantitative functional traits for marine and freshwater crustacean zooplankton. Ecology, 97, 1081.
+    ##Hessen, D. O. et al. (2007) RNA responses to N- and P-limitation; reciprocal regulation of stoichiometry and growth rate in Brachionus. Funct. Ecol., 21, 956–962.
 zp_stoich = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/2019_zoop_cnpratios.csv') 
 
 # Zooplankton Feeding Size Range 
+## Feeding size range of zooplankton was collected from the literature ## 
+## Data from: Barnett et al. 2007, Helenius and Saiz 2017, Sweeney et al. 2022 
+  ##Barnett, A. J. et al. (2007) Functional diversity of crustacean zooplankton communities: towards a trait-based classification. Freshw. Biol., 52, 796–813.
+  ##Helenius, L. K. and Saiz, E. (2017) Feeding behaviour of the nauplii of the marine calanoid copepod Paracartia grani Sars: Functional response, prey size spectrum, and effects of the presence of alternative prey. PLoS One, 12, 1–20.
+  ##Sweeney, K. et al. (2022) Grazing impacts of rotifer zooplankton on a cyanobacteria bloom in a shallow temperate lake (Vancouver Lake, WA, USA). Hydrobiologia.
 gv_foodsize = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/2019_zoop_feedingrange.csv')
 
 # Supplemental #==========================
@@ -566,7 +571,3 @@ alm_hist = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/ma
 ## For more information about these data contact: tjbutts@wisc.edu 
 zoop_hist = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/zp_historical.csv')
 phyto_hist = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/gv_plankton_historical.csv')
-
-# Data I should just have #==============
-# 1. Hebert Coefficients from regressions # 
-
