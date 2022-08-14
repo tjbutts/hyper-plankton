@@ -9,7 +9,6 @@
 # Datasets required 
 zp_raw 
 phy_biomass
-phy_grouping 
 
 # Select Color Scheme # 
 if (!require(RColorBrewer)) install.packages('RColorBrewer')
@@ -494,42 +493,3 @@ legend('center', legend = rev(c('Bacillariophyta','Chlorophyta', 'Chryso-& Crypt
        pch=15, bty='n',
        pt.cex=2.5, cex=0.8,
        col = c("#00441b", "#5aae61","#d9f0d3", "#3C3B3D", '#6D6C70', '#A2A1A6'))
-
-# Zooplankton to Phytoplankton Biomass percentage #========================
-# ZOOPLANKTON BIOMASS # 
-#==============================================================# 
-zp_totbiomass = zp_raw %>% 
-  select(doy, group, biomass) %>%
-  group_by(doy) %>%
-  summarize(biomass = sum(biomass)) %>%
-  ungroup() %>%
-  filter(!(doy == 234 | doy == 273))
-zp_totbiomass
-
-ptot = pdat %>%
-  group_by(doy) %>%
-  summarise(totbiom = sum(totbiom)) %>%
-  ungroup() %>% 
-  as_tibble() %>% 
-  mutate(totbiom_ug = totbiom*1000) %>%
-  filter(!(doy == 157))
-ptot
-
-zpt = zp_totbiomass$biomass
-doy = zp_totbiomass$doy
-phy = ptot$totbiom_ug
-dat = cbind(doy, zpt)
-dat2 = cbind(dat, phy)
-dat2 = as_tibble(dat2)
-dat3 = dat2 %>% mutate(z_p = (zpt/phy)*100)
-dat3 = as.data.frame(dat3)
-
-windows(height = 4, width = 6)
-par(omi=c(0.9,0.9,0.5,0.5), mai=c(0.1,0.2,0.1,0.1))
-plot(dat3$doy, dat3$z_p, xlab='', ylab='', ylim = c(0,50), cex.axis=1.1, cex=1.5, type = 'l', lwd=3, col='black')
-mtext(side = 2, text = 'Percent total zoo:phyto biomass', line=2.5, cex=1)
-mtext(side=1, 'Day of Year, 2019', line=2.5, cex=1)
-abline(h=10, lty=2, lwd=3)
-abline(h=40, lty=2, lwd=3)
-text(x=170, y=13, labels='Weak top-down control')
-text(x=170, y=43, labels='Strong top-down control')
