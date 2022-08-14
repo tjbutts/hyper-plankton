@@ -214,9 +214,9 @@ nutrient_turnover
 
 # Phytoplankton GALD v. Zooplankton Body Mass #=======================================
 # Supplementary Figure S2 # 
-gv_gald_bodymass
+gv_gald_bodymass = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/2019_gv_gald-bodymass.csv')
+
 ridge2 = gv_gald_bodymass %>% 
-  mutate(gald = gald*2.5) %>% # convert from ocular units to micrometers 
   pivot_longer(cols = c(gald, mass), names_to = 'measure', values_to = 'value')
 ridge2
 

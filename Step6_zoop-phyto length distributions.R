@@ -39,10 +39,12 @@ zp_fsr_weighted # weighted minimum and maximum feeding size range
 
 # Phytoplankton GALD v. Zooplankton length - combine into one dataset
 gv_gald 
-gv_length_mass
 
-gv_length = gv_length_mass %>%
-  
+# The following datasets are the combination of the phytoplankton GALD and zooplankton length data. 
+## The analysis requires GALD and length to be in one data frame and two separate columns 
+## For example, if there are more GALD observations than length observations, then the difference must be NAs in the zooplankton column. If there are 20 more GALD measurements than length measurements for DOY 143, then there need to be 20 NAs added to the zooplantkon column for DOY 143 to match the length of the GALD column 
+## I have not found a good way to do so in R, as such, the data from 'gv_gald' is combined in the dataset below and pulled from my github: https://github.com/tjbutts/hyper-plankton
+gv_gald_length = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/2019_gv_gald-length.csv')
 
 # Format data set for ggplot and convert GALD units from ocular units to micrometers 
 ridge = gv_gald_length %>%
@@ -55,14 +57,6 @@ ridge_fct = ridge %>%
 doyfct_select1 = ridge_fct %>% filter(!c(doy == 157 | doy ==234 | doy == 273))
 doyfct_select2 = unique(doyfct_select1$doyfct)
 
-fsr_lines_min = data.frame(doyfct = doyfct_select2, 
-                           x0 = c(zp_fsr_weighted$wm_min))
-fsr_lines_max = data.frame(doyfct = doyfct_select2, 
-                           x1 = c(zp_fsr_weighted$wm_max))
-
-
-
-
 windows(height=6, width=3)
 p1 = ggplot(
   ridge_fct, 
@@ -70,12 +64,6 @@ p1 = ggplot(
   geom_density_ridges( # Create the density plots for both phytoplankton GALD and zooplankton length 
     aes(x = value, fill = paste(doyfct, measure)), jittered_points = FALSE, 
     alpha = .8, color = "black", size = 1, quantile_lines=TRUE, quantile_fun=function(x,...)mean(x)) +
-  geom_segment(data = fsr_lines_min, aes(x=x0, xend=x0, y=as.numeric(doyfct),
-                                         yend=(as.numeric(doyfct) + 0.9), 
-                                         col='black', inherit.aes = FALSE)) +
-  geom_segment(data = fsr_lines_max, aes(x=x1, xend=x1, y=as.numeric(doyfct), 
-                                         yend=(as.numeric(doyfct) + 0.9), 
-                                         col='black', inherit.aes = FALSE)) +
   scale_y_discrete(expand = c(0.01, 0)) + 
   labs( # Axis labels 
     x = "Length (um)",
@@ -180,63 +168,3 @@ legend("center", legend = c('Phytoplankton GALD', 'Zooplankton Length'),
        pch=15, 
        pt.cex=3, cex=1.5, bty='n',
        col = c('#008a64', '#630060'))
-
-# PLOT: % GALD within zooplankton community feeding range 
-ridge
-zp_fsr_weighted2 = zp_fsr_weighted %>% select(!(doyfct))
-
-gald_range = ridge %>% filter(measure == 'gald')
-gald_range
-
-join_fsr = left_join(gald_range, zp_fsr_weighted2, by ='doy')
-join_fsr 
-
-fsr_percent = join_fsr %>% 
-  mutate(within_range = case_when(value >= wm_min & value <= wm_max ~ 'within'))
-fsr_percent$within_range = fsr_percent$within_range %>% replace_na('outside') 
-fsr_percent2 = fsr_percent %>% 
-  mutate(count = 1)
-fsr_percent2
-
-fsr_percent_wide = fsr_percent2 %>% # Make the value inside or outside of the feeding range a categorical variable
-  select(doy, within_range, count) %>% 
-  mutate(row = seq.int(nrow(fsr_percent2))) %>%
-  pivot_wider(names_from = within_range, values_from = count)
-fsr_percent_wide[is.na(fsr_percent_wide)] <- 0
-fsr_percent_wide
-
-fsr_percent_wide$within = factor(fsr_percent_wide$within, c(0,1), labels = c('outside', 'within'))
-fsr_percent_wide$doy = factor(fsr_percent_wide$doy)
-
-cross = table(fsr_percent_wide$within, fsr_percent_wide$doy)
-cross
-
-percents = round(prop.table(cross, 2)*100, digits=0)
-percents.m = as.matrix(percents)
-percents = percents.m[, c(1,2,4,5,6,7,8,9,10,11,12,13,15,16)]
-percents
-
-doy = c(143,150,164, 172, 178, 192, 199, 206, 211,213,220,227,245,251)
-percent_within = c(53,38,13,4,37,0,3,25,38,65,68,50,87,74)
-fsr_percent_fin = as.data.frame(percent_within, row.names = doy)
-fsr_percent_fin$doy = doy
-fsr_percent_fin = fsr_percent_fin %>% 
-  select(doy, percent_within) %>%
-  mutate(doy = as.factor(doy)) %>%
-  as.data.frame()
-fsr_percent_fin
-
-windows(height=3, width=5)
-par(mai=c(0.9,0.9,0.6,0.5))
-barplot(percents, col = c('black', 'gray90'))
-box()
-mtext(side=2, text='Percent GALD', line=2.5)
-mtext(side=1, text='Day of Year, 2019', line = 2.5)
-
-windows(height=5, width=5)
-par(mai=c(0.9,1,0.6,1))
-plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
-legend('center', legend = c('Within', 'Outside'), 
-       pch=15,
-       pt.cex=2.5, cex=0.8,
-       col = c('gray90', 'black'))
