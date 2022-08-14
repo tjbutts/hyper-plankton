@@ -541,7 +541,7 @@ gv_exo_hf =  as_tibble(dt4)
 ## phytoplankton GALD 
 gv_gald = as_tibble(dt2)
 ## Zooplankton length and body mass 
-gv_length_mass = dt3 
+gv_length_mass = as_tibble(dt3) 
 
 # Data collated from the literature ##===========================
 # Describe literature sources

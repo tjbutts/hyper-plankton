@@ -37,9 +37,12 @@ zp_fsr_weighted = zp_fsr %>%
   mutate(doyfct = fct_rev(as.factor(doy)))
 zp_fsr_weighted # weighted minimum and maximum feeding size range 
 
-# Phytoplankton GALD v. Zooplankton length - combine into one dataset === FIX ===
+# Phytoplankton GALD v. Zooplankton length - combine into one dataset
 gv_gald 
 gv_length_mass
+
+gv_length = gv_length_mass %>%
+  
 
 # Format data set for ggplot and convert GALD units from ocular units to micrometers 
 ridge = gv_gald_length %>%
