@@ -19,12 +19,6 @@ gvl19 = gv_nutrients %>%
   filter(!(doy == 162)) # DOY Removed to match with zooplankton data 
 gvl19
 
-# Replace 0s in SRP and NOx estimate with detection limit/2 of AQ2 (3.9 and 0.03, respectively) 
-gvl19$SRP_ugL<-replace(gvl19$SRP_ugL, gvl19$SRP_ugL<3.9, 3.9)
-gvl19$SRP_ugL
-gvl19$NOx_mgL<-replace(gvl19$NOx_mgL, gvl19$NOx_mgL<0.03, 0.03)
-gvl19$NOx_mgL
-
 # Assuming that TP = SRP + org P + inorg P sorbed to particles 
 # Inorg P is not applicable at this site (assume zero)
 # Calculate org P concentration by subtracting SRP from TP and convert to moles 
