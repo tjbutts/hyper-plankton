@@ -40,6 +40,9 @@ gv19_dens
 
 # Calculate the concentration of nutrients zooplankton would excrete in a day based on their size # 
 # Calculate the estimate of zooplankton excretion along with the upper and lower ranges per day of year
+
+## Allometric equations for zooplankton P and N come from Hebert et al. 2016 ## 
+    ## Hebert, M. P. et al. (2016). A meta-analysis of zooplankton functional traits influencing ecosystem function. Ecology, 97, 1069–1080.
 Hebert_tot_excretion_rate = gv19_DM %>% # Dry mass in ug
   mutate(dry_biomass_mg = (drymass/1000)) %>% # Allometric equation calls for mass in milligrams
   mutate(ln_P_excretion = 0.56 + (0.70*log(dry_biomass_mg))) %>% 
