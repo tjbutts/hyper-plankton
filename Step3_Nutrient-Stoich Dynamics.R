@@ -1,8 +1,8 @@
 ## Green Valley Zooplankton Nutrient Recycling Project ###
-# Code originally written by TJ Butts October 2021
+# Code originally written by TJ Butts AUGUST 2022
 
 #================================================================##
-# STEP 3: VISUALIZE NUTREINT DYNAMICS AND ORGANISM STOICHIOMETRY
+# STEP 3: VISUALIZE NUTRIENT DYNAMICS AND ORGANISM STOICHIOMETRY
 #================================================================##
 ## NOTE: Be sure to run Steps 1-2 first ## 
 
@@ -257,63 +257,3 @@ legend("center", legend =c( 'Total P', 'Inorganic P' ,'Zooplankton P'),
        pch=c(19, 17, 18), 
        pt.cex=3, cex=1.5, bty='n',
        col = c('#c24ad7', '#d786e4', 'gray60'))
-
-# Plot just N and P body storage #========================
-windows(height=3, width=6)
-par(mfrow=c(1,2), mai=c(0.6,0.8,0.06,0.05))
-
-# N uM
-# '#004ebe','#2a81ff', '#94c0ff'
-plot(gv_uM_stocks$doy, gv_uM_stocks$n_uM_zp,  type = "o", lwd = 2, xlim = c(120, 280), xaxp = c(140,280,7),
-     pch = 19, col = '#004ebe', ylim = c(0,2),
-     ylab = '', 
-     xlab = "", cex = 1.5, cex.axis = 1.1)
-mtext(expression(N~Storage~"("*mu*M*")"), side = 2, line = 2.5, cex = 1)
-
-# P uM
-# '#c24ad7', '#d786e4', '#ebc3f2'
-plot(gv_uM_stocks$doy, gv_uM_stocks$p_uM_zp,  type = "o", lwd = 2, xlim = c(120, 280), xaxp = c(140,280, 7),
-     pch = 19, col = '#c24ad7', ylim = c(0,2),ylab = '',
-     #ylab = expression(N~Concentration~"("*mu*M*")"), 
-     xlab = "", cex = 1.5, cex.axis = 1.1)
-mtext(expression(P~Storage~"("*mu*M*")"), side = 2, line = 2.5, cex = 1)
-
-
-# N uM
-# '#004ebe','#2a81ff', '#94c0ff'
-plot(gv_uM_stocks$doy, gv_uM_stocks$totalN_uM,  type = "o", lwd = 2, xlim = c(120, 280), xaxp = c(140,280,7),
-     pch = 19, col = '#004ebe', ylim = c(0, 1),
-     ylab = '', 
-     xlab = "", cex = 1.5, cex.axis = 1.1)
-mtext(expression(N~Concentration~"("*mu*M*")"), side = 2, line = 1.5, cex = 1)
-axis(side=2,
-     at=c(log10(0.1), log10(0.2), log10(0.3), log10(0.4), log10(0.5), log10(0.6), log10(0.7), log10(0.8), 
-          log10(0.9), log10(1),
-          log10(2),log10(3),log10(4),log10(5),log10(6),log10(7),log10(8),log10(9),log10(10),
-          log10(20),log10(30),log10(40),log10(50),log10(60),log10(70),log10(80),log10(90),log10(100),
-          log10(200), log10(300), log10(400), log10(500), log10(600), log10(700), log10(800), log10(900), log10(1000)), #Where the tick marks should be drawn
-     labels = c('0.1','','','','','','','','','1', '', '','','','','','','','10','','','','','','','','','100', '', '', '','','','','','','1000'), las=2, cex.axis=0.8)
-points(gv_uM_stocks$doy, gv_uM_stocks$inorgN_uM, type = 'o', lwd=2, 
-       pch = 17, col = '#2a81ff', cex=1.5)
-points(gv_uM_stocks$doy, gv_uM_stocks$n_uM_zp, type = 'o', lwd=2,
-       pch = 18, col = 'gray60', cex=1.5)
-
-
-# P uM
-# '#c24ad7', '#d786e4', '#ebc3f2'
-plot(gv_uM_stocks$doy, gv_uM_stocks$totalP_uM,  type = "o", lwd = 2, xlim = c(120, 280), xaxp = c(140,280, 7),
-     pch = 19, col = '#c24ad7', ylim = c(log10(1), log10(20)),ylab = '',
-     #ylab = expression(N~Concentration~"("*mu*M*")"), 
-     xlab = "", cex = 1.5, cex.axis = 1.1)
-axis(side=2,
-     at=c(log10(0.1), log10(0.2), log10(0.3), log10(0.4), log10(0.5), log10(0.6), log10(0.7), log10(0.8), 
-          log10(0.9), log10(1),
-          log10(2),log10(3),log10(4),log10(5),log10(6),log10(7),log10(8),log10(9),log10(10),
-          log10(20)), #Where the tick marks should be drawn
-     labels = c('0.1','','','','','','','','','1', '', '','','','','','','','10','20'), las=2, cex.axis=0.8)
-mtext(expression(P~Concentration~"("*mu*M*")"), side = 2, line = 1.5, cex = 1)
-points(gv_uM_stocks$doy, log10(gv_uM_stocks$inorgP_uM+1), type = 'o', lwd=2.2, 
-       pch = 17, col = '#d786e4', cex=1.5)
-points(gv_uM_stocks$doy, log10(gv_uM_stocks$p_uM_zp+1), type ='o', lwd=2, 
-       pch = 18, col = 'gray60', cex=1.5)
-
