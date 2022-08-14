@@ -2,7 +2,7 @@
 # Code originally written by TJ Butts November 2021
 
 #============================================================================================##
-# STEP 4: QUANTIFY ZOOPLANKTON EXCRETION BASED ON BODY SIZE & ZOOPLANKTON NUTRIENT TURNOVER 
+# STEP 4.5: QUANTIFY ZOOPLANKTON EXCRETION WITH AND WITHOUT ROTIFERS 
 #============================================================================================##
 ## NOTE: Be sure to run Steps 1-3 first ## 
 
@@ -69,12 +69,14 @@ P_uncert = sqrt(P_slopeerr + P_interr)
 
 # get the dry biomass (in micrograms) per taxa per day of year 
 gv19_DM = zp_raw %>%
-  select(sampleid, doy, taxon, group, drymass)
+  select(sampleid, doy, taxon, group, drymass) %>% 
+  filter(group != 'Rotifer')
 gv19_DM  
 
 # get the density (number of individuals per liter) per taxa per day of year 
 gv19_dens = zp_raw %>%
-  select(sampleid, doy, taxon, group, density)
+  select(sampleid, doy, taxon, group, density) %>%
+  filter(group != 'Rotifer')
 gv19_dens
 
 # Calculate the concentration of nutrients zooplankton would excrete in a day based on their size # 
@@ -288,55 +290,6 @@ excretion_frac = join2 %>%
   drop_na() 
 excretion_frac
 
-# Plot the data #======================================
-windows(height = 5, width = 6)
-par(omi=c(0.9,0.9,0.5,0.5), mai=c(0.1,0.2,0.1,0.1))
-# Transparent colors # 
-col2rgb('orchid2')
-t_col = function(color, percent=50, name = NULL) {
-  rgb.val = col2rgb(color)
-  t.col <- rgb(rgb.val[1], rgb.val[2], rgb.val[3],
-               max=255,
-               alpha = (100 - percent)*255/100, 
-               names=name)
-  invisible(t.col)
-}
-pcol = t_col('#c24ad7', percent = 50, name = 'transorch')
-ncol = t_col('#004ebe', percent=50, name='transdodge')
-
-# Phosphorus 
-lowerbound_p = c(excretion_frac$Pf_low)
-upperbound_p = c(excretion_frac$Pf_upp)
-doy = c(excretion_frac$doy)
-x = c(doy, rev(doy))
-y = c(lowerbound_p, rev(upperbound_p))
-plot(excretion_frac$doy, upperbound_p, type='l', xlim=c(140,260), col='white',
-     cex.axis=1.1, cex=1.5, ylim = c(0,80))
-#lines(excretion_frac$doy, lowerbound_p, type='l')
-polygon(x=x, y=y, col=pcol, border=F)
-lines(excretion_frac$doy, excretion_frac$Pf_mid, type='l', lwd=3, col='orchid3')
-
-# Nitrogen 
-lowerbound_n = c(excretion_frac$Nf_low)
-upperbound_n = c(excretion_frac$Nf_upp)
-doy = c(excretion_frac$doy)
-x =c(doy, rev(doy))
-y= c(lowerbound_n, rev(upperbound_n))
-polygon(x=x, y=y, col=ncol, border=F)
-lines(excretion_frac$doy, excretion_frac$Nf_mid, type='l', lwd=2, col='dodgerblue3')
-
-# Axis text # 
-mtext(side=1, 'Day of Year, 2019', line=2, cex=1 )
-mtext(side=2, 'Zooplankton excretion as a percentage 
-of the inorganic nutrient pool', line=2.5, cex=1)
-
-# Legend 
-legend("topright", legend =c('Nitrogen', 'Phosphorus'), 
-       pch=15, 
-       pt.cex=1.5, cex=1, bty='n',
-       col = c('dodgerblue3', 'orchid3'))
-
-## 3-panel figure ##============================
 # Transparent colors # 
 col2rgb('orchid2')
 t_col = function(color, percent=50, name = NULL) {
@@ -350,7 +303,7 @@ t_col = function(color, percent=50, name = NULL) {
 pcol = t_col('#c24ad7', percent = 50, name = 'transorch')
 ncol = t_col('#004ebe', percent=50, name='transdodge')
 windows(height = 4, width = 6)
-par(omi=c(0.4,0.5,0.4,0.1), mfrow=c(1,2))
+par(mai=c(1.5,0.9,0.6,0.1), mfrow=c(1,2),  mgp=c(3,0.5,0))
 
 # Nitrogen 
 lowerbound_n = c(excretion_frac$Nf_low)
@@ -364,7 +317,13 @@ polygon(x=x, y=y, col=ncol, border=F)
 lines(excretion_frac$doy, excretion_frac$Nf_mid, type='l', lwd=2, col='dodgerblue3')
 mtext(side=2, 'Zooplankton excretion as a percentage 
 of the inorganic nutrient pool', line=2.5, cex=1)
-mtext(side=1, 'Day of Year, 2019', line=2, cex=1)
+axis(1, at=c(140,152,182, 
+             213, 244, 
+             260),
+     line = 1.6,
+     labels=c("","","",
+              '','', ''), cex.axis=0.8)
+mtext(side=1, 'Day of Year, 2019', line=3, cex=1)
 text(x=200, y=75, labels = 'Nitrogen', font=2, col='dodgerblue3')
 
 # Phosphorus 
@@ -378,30 +337,32 @@ plot(excretion_frac$doy, upperbound_p, type='l', xlim=c(140,260), col='white',
 #lines(excretion_frac$doy, lowerbound_p, type='l')
 polygon(x=x, y=y, col=pcol, border=F)
 lines(excretion_frac$doy, excretion_frac$Pf_mid, type='l', lwd=3, col='orchid3')
-mtext(side=1, 'Day of Year, 2019', line=2, cex=1)
+mtext(side=1, 'Day of Year, 2019', line=3, cex=1)
+axis(1, at=c(140,152,182, 
+             213, 244, 
+             260),
+     line = 1.6,
+     labels=c("","","",
+              '','', ''), cex.axis=0.8)
+mtext(side=1, 'Day of Year, 2019', line=3, cex=1)
 axis(side=2, at=c(0,20, 40, 60, 80), labels=F, tick=T)
 text(x=215, y=75, labels = 'Phosphorus', font=2, col='orchid3')
 
-# Nitrogen to phosphorus ratio # 
-# Convert to Molar ratios  # 
-Hebert_exc_np = Hebert_tot_exc_sum_e %>%
+# N:P Ratio plot # 
+Hebert_tot_exc_sum_e # ug N or P per day per L, estimate from Step4
+
+# Convert to uM # 
+Hebert_tot_exc_uM = Hebert_tot_exc_sum_e %>%
   rename(Nexc = H_ug_Nexcrete_sum_d, 
          Pexc = H_ug_Pexcrete_sum_d) %>% 
-  mutate(Pexc_M = Pexc/30970000, # ug N or P per day per L to uM N or P per day  
-         Nexc_M = Nexc/14010000) %>%
-  select(doy, Pexc_M, Nexc_M) %>% 
-  mutate(exc_np = Nexc_M/Pexc_M)
-Hebert_exc_np 
+  mutate(Pexc_uM = (Pexc*1000000)/(1000000*30.97), # ug N or P per day per L to uM N or P per day  
+         Nexc_uM = (Nexc*1000000)/(1000000*14.01)) %>% 
+  mutate(NP_molar = Nexc_uM/Pexc_uM) %>%
+  select(doy, Pexc_uM, Nexc_uM, NP_molar)
+Hebert_tot_exc_uM 
 
-exc_NP = Hebert_exc_np$exc_np
-
-plot(Hebert_exc_np$doy, Hebert_exc_np$exc_np, type='l', xlim=c(140,280), col='black',
-     cex.axis=1.1, cex=1.5, ylim = c(0,80), lwd=3)
-
-# plot axes 
 windows(height = 4, width = 6)
-par(omi=c(0.4,0.5,0.4,0.1), mfrow=c(1,2))
-plot(Hebert_exc_np$doy, Hebert_exc_np$exc_np, type='l', xlim=c(140,280), col='black',
-     cex.axis=1.1, cex=1.5, ylim = c(0,5), lwd=3, ylab='Zooplankton excretion N:P',
-     xlab='Day of Year, 2019')
-
+plot(Hebert_tot_exc_uM $doy, Hebert_tot_exc_uM$NP_molar , type='l', xlim=c(140,280), col='black', lwd=3,
+     cex.axis=1.1, cex=1.5, ylim = c(0,5),  xlab='', ylab='')
+mtext(side=1, 'Day of Year, 2019', line=3, cex=1)
+mtext(side=2, 'Zooplankton excretion N:P', line=2.5, cex=1)

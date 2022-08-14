@@ -14,18 +14,16 @@ alm_hist # Total GV Data 2000 - 2019
 alm = alm_hist %>% filter(Year > 2010) %>% arrange(DOY) %>% 
   mutate(season = if_else(DOY <170, 'early', 'late')) %>% # Rough split in data from Breakpoints Analysis 
   filter(analyte == 'Ammonia-nitrogen (as N)' | analyte == 'Total Nitrogen' | 
-                         analyte == 'Nitrate' | analyte == 'Total Phosphorus' | analyte == 'Orthophosphate (as P)' |
-                         analyte == 'Fixed suspended solids' | analyte == 'Chlorophyll a') # Key Analytes
+           analyte == 'Nitrate' | analyte == 'Total Phosphorus' | analyte == 'Orthophosphate (as P)' |
+           analyte == 'Fixed suspended solids' | analyte == 'Chlorophyll a') # Key Analytes
 
 # Supplementary Figure S1 # 
 windows(height=6, width=6)
 par(mfrow=c(3,3), mai=c(0.6,0.6,0.06,0.1))
 
 #Create Transparent Color Palette (use col2rgb() to transform fave color to RGB values)
-ncol <- rgb(30,144,255, max = 255, alpha = 70, names = "blue_transp")
-pcol <- rgb(147, 112, 219, max = 255, alpha = 70, names = "purple_transp")
-fcol <- rgb(139, 117, 0, max = 255, alpha = 70, names = "tan_transp")
-ccol <- rgb(60,179,113, max = 255, alpha = 70, names = "green_transp")
+ncol <- 'black'
+ccol <- 'gray80'
 
 ## Nitrogen ##
 #Total Nitrogen
@@ -34,14 +32,14 @@ alm_tn = alm %>% filter(analyte == 'Total Nitrogen') %>%
   select(!(unit))
 
 alm_tn_e = alm_tn %>% filter(season == 'early') %>% as.data.frame()
-plot(alm_tn_e[alm_tn_e$analyte=="Total Nitrogen", "DOYFrac"], alm_tn_e[alm_tn_e$analyte=="Total Nitrogen", "result"], pch=19, col=ncol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020), ylim = c(0, max(alm_tn[alm_tn$analyte == 'Total Nitrogen', 'result'])), ylab=expression(Total~N~"("*mu*M*")"), cex.lab=1.5)
+plot(alm_tn_e[alm_tn_e$analyte=="Total Nitrogen", "DOYFrac"], alm_tn_e[alm_tn_e$analyte=="Total Nitrogen", "result"], pch=15, col=ncol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020), ylim = c(0, max(alm_tn[alm_tn$analyte == 'Total Nitrogen', 'result'])), ylab=expression(Total~N~"("*mu*M*")"), cex.lab=1.5)
 alm_tn_l = alm_tn %>% filter(season == 'late') %>% as.data.frame()
 points(alm_tn_l[alm_tn_l$analyte=="Total Nitrogen", "DOYFrac"], alm_tn_l[alm_tn_l$analyte=="Total Nitrogen", "result"], pch=19, col=ccol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020))
 
-mean(alm_tn_e[alm_tn_e$analyte=="Total Nitrogen", "result"], na.rm = T)
-lines(c(2011,2019), c(159.43, 159.43), lwd=4, col="dodgerblue4")
-mean(alm_tn_l[alm_tn_l$analyte=="Total Nitrogen", "result"], na.rm = T)
-lines(c(2011,2019), c(145.42, 145.42), lwd=4, col='seagreen4')
+#mean(alm_tn_e[alm_tn_e$analyte=="Total Nitrogen", "result"], na.rm = T)
+#lines(c(2011,2019), c(159.43, 159.43), lwd=4, col="dodgerblue4")
+#mean(alm_tn_l[alm_tn_l$analyte=="Total Nitrogen", "result"], na.rm = T)
+#lines(c(2011,2019), c(145.42, 145.42), lwd=4, col='seagreen4')
 
 #Nitrate
 alm_nox = alm %>% filter(analyte == 'Nitrate') %>% 
@@ -49,13 +47,13 @@ alm_nox = alm %>% filter(analyte == 'Nitrate') %>%
   select(!(unit))
 
 alm_nox_e = alm_nox %>% filter(season == 'early') %>% as.data.frame()
-plot(alm_nox_e[alm_nox_e$analyte=="Nitrate", "DOYFrac"], alm_nox_e[alm_nox_e$analyte=="Nitrate", "result"], pch=19, col=ncol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020), ylim = c(0, max(alm_tn[alm_tn$analyte == 'Total Nitrogen', 'result'])), ylab=expression(Nitrate~"("*mu*M*")"), cex.lab=1.5)
+plot(alm_nox_e[alm_nox_e$analyte=="Nitrate", "DOYFrac"], alm_nox_e[alm_nox_e$analyte=="Nitrate", "result"], pch=15, col=ncol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020), ylim = c(0, max(alm_tn[alm_tn$analyte == 'Total Nitrogen', 'result'])), ylab=expression(Nitrate~"("*mu*M*")"), cex.lab=1.5)
 alm_nox_l = alm_nox %>% filter(season == 'late') %>% as.data.frame()
 points(alm_nox_l[alm_nox_l$analyte=="Nitrate", "DOYFrac"], alm_nox_l[alm_nox_l$analyte=="Nitrate", "result"], pch=19, col=ccol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020))
 mean(alm_nox_e[alm_nox_e$analyte=="Nitrate", "result"], na.rm = T)
-lines(c(2011,2019), c(58.79, 58.79), lwd=4, col="dodgerblue4")
+#lines(c(2011,2019), c(58.79, 58.79), lwd=4, col="dodgerblue4")
 mean(alm_nox_l[alm_nox_l$analyte=="Nitrate", "result"], na.rm = T)
-lines(c(2011,2019), c(19.09, 19.09), lwd=4, col='seagreen4')
+#lines(c(2011,2019), c(19.09, 19.09), lwd=4, col='seagreen4')
 
 #Amonnium
 alm_nhx = alm %>% filter(analyte == 'Ammonia-nitrogen (as N)') %>% 
@@ -63,7 +61,7 @@ alm_nhx = alm %>% filter(analyte == 'Ammonia-nitrogen (as N)') %>%
   select(!(unit))
 
 alm_nhx_e = alm_nhx %>% filter(season == 'early') %>% as.data.frame()
-plot(alm_nhx_e[alm_nhx_e$analyte=="Ammonia-nitrogen (as N)", "DOYFrac"], alm_nhx_e[alm_nhx_e$analyte=="Ammonia-nitrogen (as N)", "result"], pch=19, col=ncol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020), ylim = c(0, max(alm_tn[alm_tn$analyte == "Total Nitrogen", 'result'])), ylab=expression(Ammonium~"("*mu*M*")"), cex.lab=1.5)
+plot(alm_nhx_e[alm_nhx_e$analyte=="Ammonia-nitrogen (as N)", "DOYFrac"], alm_nhx_e[alm_nhx_e$analyte=="Ammonia-nitrogen (as N)", "result"], pch=15, col=ncol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020), ylim = c(0, max(alm_tn[alm_tn$analyte == "Total Nitrogen", 'result'])), ylab=expression(Ammonium~"("*mu*M*")"), cex.lab=1.5)
 alm_nhx_l = alm_nhx %>% filter(season == 'late') %>% as.data.frame()
 points(alm_nhx_l[alm_nhx_l$analyte=="Ammonia-nitrogen (as N)", "DOYFrac"], alm_nhx_l[alm_nhx_l$analyte=="Ammonia-nitrogen (as N)", "result"], pch=19, col=ccol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020))
 
@@ -81,7 +79,7 @@ alm_post_l = alm_nhx_l %>% filter(Year >2015)
 mean(alm_post_l[alm_post_l$analyte=="Ammonia-nitrogen (as N)", "result"], na.rm = T)
 lines(c(2016,2019), c(0.632, 0.632), lwd=4, col='seagreen4')
 
-legend('topright', legend=c('DOY < 170', 'DOY > 170'), cex=1.1, pch=19, col=c(ncol, ccol))
+legend('topright', legend=c('DOY < 170', 'DOY > 170'), cex=1.1, pch=c(15,19), col=c(ncol, ccol))
 
 ## Phosphorus ##
 #Total PHosphorus
@@ -90,9 +88,10 @@ alm_tp = alm %>% filter(analyte == 'Total Phosphorus') %>%
   select(!(unit))
 
 alm_tp_e = alm_tp %>% filter(season == 'early') %>% as.data.frame()
-plot(alm_tp_e[alm_tp_e$analyte=="Total Phosphorus", "DOYFrac"], alm_tp_e[alm_tp_e$analyte=="Total Phosphorus", "result"], pch=19, col=ncol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020), ylab=expression(Total~P~"("*mu*M*")"), cex.lab=1.5, ylim = c(0, max(alm_tp[alm_tp$analyte == "Total Phosphorus", 'result'])))
+plot(alm_tp_e[alm_tp_e$analyte=="Total Phosphorus", "DOYFrac"], alm_tp_e[alm_tp_e$analyte=="Total Phosphorus", "result"], pch=15, col=ncol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020), ylab=expression(Total~P~"("*mu*M*")"), cex.lab=1.5, ylim = c(0, max(alm_tp[alm_tp$analyte == "Total Phosphorus", 'result'])))
 alm_tp_l = alm_tp %>% filter(season == 'late') %>% as.data.frame()
 points(alm_tp_l[alm_tp_l$analyte=="Total Phosphorus", "DOYFrac"], alm_tp_l[alm_tp_l$analyte=="Total Phosphorus", "result"], pch=19, col=ccol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020))
+
 mean(alm_tp_e[alm_tp_e$analyte=="Total Phosphorus", "result"], na.rm = T)
 lines(c(2011,2019), c(3.68, 3.68), lwd=4, col="dodgerblue4")
 mean(alm_tp_l[alm_tp_l$analyte=="Total Phosphorus", "result"], na.rm = T)
@@ -105,9 +104,10 @@ alm_srp = alm %>% filter(analyte == 'Orthophosphate (as P)') %>%
 alm_srp
 
 alm_srp_e = alm_srp %>% filter(season == 'early') %>% as.data.frame()
-plot(alm_srp_e[alm_srp_e$analyte=="Orthophosphate (as P)", "DOYFrac"], alm_srp_e[alm_srp_e$analyte=="Orthophosphate (as P)", "result"], pch=19, col=ncol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020), ylab=expression(Soluble~P~"("*mu*M*")"), cex.lab=1.5, ylim = c(0, max(alm_tp[alm_tp$analyte == "Total Phosphorus", 'result'])))
+plot(alm_srp_e[alm_srp_e$analyte=="Orthophosphate (as P)", "DOYFrac"], alm_srp_e[alm_srp_e$analyte=="Orthophosphate (as P)", "result"], pch=15, col=ncol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020), ylab=expression(Soluble~P~"("*mu*M*")"), cex.lab=1.5, ylim = c(0, max(alm_tp[alm_tp$analyte == "Total Phosphorus", 'result'])))
 alm_srp_l = alm_srp %>% filter(season == 'late') %>% as.data.frame()
 points(alm_srp_l[alm_srp_l$analyte=="Orthophosphate (as P)", "DOYFrac"], alm_srp_l[alm_srp_l$analyte=="Orthophosphate (as P)", "result"], pch=19, col=ccol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020))
+
 mean(alm_srp_e[alm_srp_e$analyte=="Orthophosphate (as P)", "result"], na.rm = T)
 lines(c(2011,2019), c(0.747, 0.747), lwd=4, col="dodgerblue4")
 mean(alm_srp_l[alm_srp_l$analyte=="Orthophosphate (as P)", "result"], na.rm = T)
@@ -115,9 +115,10 @@ lines(c(2011,2019), c(4.426, 4.426), lwd=4, col='seagreen4')
 
 #Fixed Suspended Solids 
 alm_e = alm %>% filter(season == 'early') %>% as.data.frame()
-plot(alm_e[alm_e$analyte=="Fixed suspended solids", "DOYFrac"], alm_e[alm_e$analyte=="Fixed suspended solids", "result"], pch=19, col=ncol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020), ylab=expression(Inorg~Part~"("*mg~L^-1*")"), cex.lab=1.5, ylim = c(0, max(alm[alm$analyte == "Fixed suspended solids", 'result'])))
+plot(alm_e[alm_e$analyte=="Fixed suspended solids", "DOYFrac"], alm_e[alm_e$analyte=="Fixed suspended solids", "result"], pch=15, col=ncol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020), ylab=expression(Inorg~Part~"("*mg~L^-1*")"), cex.lab=1.5, ylim = c(0, max(alm[alm$analyte == "Fixed suspended solids", 'result'])))
 alm_l = alm %>% filter(season == 'late') %>% as.data.frame()
 points(alm_l[alm_l$analyte=="Fixed suspended solids", "DOYFrac"], alm_l[alm_l$analyte=="Fixed suspended solids", "result"], pch=19, col=ccol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020))
+
 mean(alm_e[alm_e$analyte=="Fixed suspended solids", "result"], na.rm = T)
 lines(c(2011,2019), c(4.97, 4.97), lwd=4, col="dodgerblue4")
 mean(alm_l[alm_l$analyte=="Fixed suspended solids", "result"], na.rm = T)
@@ -139,7 +140,7 @@ zoop_clean_e = zoop_hist_clean %>% filter(season == 'early')
 zoop_clean_l = zoop_hist_clean %>% filter(season == 'late')
 
 # Zooplankton 
-plot(zoop_clean_e$yearfrac, log10(zoop_clean_e$biomass), col=ncol, pch=19, cex=1.5, xlab="", yaxt ='n', cex.axis=1.1, xlim=c(2010,2020),ylab=expression(Zooplankton~"("*mu*g~L^-1*")"), cex.lab=1.4, ylim=c(log10(1), log10(500)))
+plot(zoop_clean_e$yearfrac, log10(zoop_clean_e$biomass), col=ncol, pch=15, cex=1.5, xlab="", yaxt ='n', cex.axis=1.1, xlim=c(2010,2020),ylab=expression(Zooplankton~"("*mu*g~L^-1*")"), cex.lab=1.4, ylim=c(log10(1), log10(500)))
 points(zoop_clean_l$yearfrac, log10(zoop_clean_l$biomass), col=ccol, pch=19, cex=1.5)
 axis(side=2, at=c(log10(1), log10(2), log10(3), log10(4), log10(5), log10(6), log10(7), log10(8), log10(9),
                   log10(10), log10(20), log10(30), log10(40), log10(50), log10(60), log10(70), log10(80), log10(90),
@@ -169,22 +170,24 @@ phyto_l = phyto_clean %>% mutate(season = if_else(doy <170, 'early', 'late')) %>
   filter(season == 'late')
 
 # non_Cyanophyta 
-plot(phyto_e$DOYFrac, log10(phyto_e$non_Cyanophyta), col=ncol, pch=19, cex=1.5, yaxt="n", xlab="Year", cex.axis=1.1, xlim=c(2010,2020),ylab=expression(Non~Cyanos~"("*mg~L^-1*")"), cex.lab=1.4, ylim=c(log10(1), log10(2000)))
+plot(phyto_e$DOYFrac, log10(phyto_e$non_Cyanophyta), col=ncol, pch=15, cex=1.5, yaxt="n", xlab="Year", cex.axis=1.1, xlim=c(2010,2020),ylab=expression(Non~Cyanos~"("*mg~L^-1*")"), cex.lab=1.4, ylim=c(log10(1), log10(2000)))
 points(phyto_l$DOYFrac, log10(phyto_l$non_Cyanophyta), col = ccol, pch=19, cex=1.5)
 axis(side=2, at=c(log10(1), log10(2), log10(3), log10(4), log10(5), log10(6), log10(7), log10(8), log10(9),log10(10), log10(20), log10(30), log10(40), log10(50), log10(60), log10(70), log10(80), log10(90), log10(100), log10(200), log10(300), log10(400), log10(500), log10(600), log10(700), log10(800), log10(900),
                   log10(1000), log10(2000)), 
      labels=c("1","","","","","","","","","10","","","","","","","","","100","","","","","","","","","1000", '2000'), las=3, cex.lab=1.3)
+
 mean(phyto_e$non_Cyanophyta, na.rm = T)
 lines(c(2011,2019), c(log10(15.41), log10(15.41)), lwd=4, col="dodgerblue4")
 mean(phyto_l$non_Cyanophyta, na.rm = T)
 lines(c(2011,2019), c(log10(5.11), log10(5.11)), lwd=4, col='seagreen4')
 
 # Cyanophyta
-plot(phyto_e$DOYFrac, log10(phyto_e$Cyanophyta), col=ncol, pch=19, cex=1.5, yaxt="n", xlab="", cex.axis=1.1, xlim=c(2010,2020),ylab=expression(Cyanos~"("*mg~L^-1*")"), cex.lab=1.4, ylim=c(log10(1), log10(2000)))
+plot(phyto_e$DOYFrac, log10(phyto_e$Cyanophyta), col=ncol, pch=15, cex=1.5, yaxt="n", xlab="", cex.axis=1.1, xlim=c(2010,2020),ylab=expression(Cyanos~"("*mg~L^-1*")"), cex.lab=1.4, ylim=c(log10(1), log10(2000)))
 points(phyto_l$DOYFrac, log10(phyto_l$Cyanophyta), col = ccol, pch=19, cex=1.5)
 axis(side=2, at=c(log10(1), log10(2), log10(3), log10(4), log10(5), log10(6), log10(7), log10(8), log10(9),log10(10), log10(20), log10(30), log10(40), log10(50), log10(60), log10(70), log10(80), log10(90), log10(100), log10(200), log10(300), log10(400), log10(500), log10(600), log10(700), log10(800), log10(900),
                   log10(1000), log10(2000)), 
      labels=c("1","","","","","","","","","10","","","","","","","","","100","","","","","","","","","1000", '2000'), las=3, cex.lab=1.3)
+
 mean(phyto_e$Cyanophyta, na.rm = T)
 lines(c(2011,2019), c(log10(275.24), log10(275.24)), lwd=4, col="dodgerblue4") # Mean of early 
 mean(phyto_l$Cyanophyta, na.rm = T)
@@ -297,7 +300,7 @@ p2 <- ggplot(
     name = "measure", guide = "legend") 
 ggarrange(p1,p2,ncol=2)
 
-# Phytoplankton GALD v. Zooplankton Length/Body Mass Regressions #========================
+# Phytoplankton GALD v. Zooplankton Length/Body Mass Correlations #========================
 # Supplementary Figure S3 # 
 # phytoplankton mean GALD 
 gald_mean = gald_ridge %>%
@@ -313,7 +316,20 @@ mass_mean = mass_ridge %>%
   ungroup()
 mass_mean
 
-# mean zooplankton length 
+# mean zooplankton length
+ridge = gv_gald_length %>%
+  mutate(gald = gald*2.5) %>% # Convert GALD measurement from ocular units to micrometers 
+  pivot_longer(cols = c(gald, length), names_to = 'measure', values_to = 'value')
+ridge
+
+ridge_fct = ridge %>% 
+  mutate(doyfct = fct_rev(as.factor(doy))) # Not sure why I have to do this, but it's the only way the DOY aligns correctly 
+
+length = ridge_fct %>%
+  filter(measure == 'length') %>%
+  select(!(doyfct)) %>%
+  as_tibble()
+
 length_mean = length %>%
   group_by(doy) %>%
   summarise(length_avg = mean(value, na.rm = T)) %>%
@@ -325,10 +341,11 @@ meanmod1 = left_join(length_mean, gald_mean, by = 'doy')
 meanmod1$length_avg[is.nan(meanmod1$length_avg)] <-NA
 meanmod1$gald_avg[is.nan(meanmod1$gald_avg)] <-NA
 
+# Pearson Correlation Test 
 m1 = meanmod1 %>% rename(l = length_avg) %>% rename(g = gald_avg)
-mod1 = lm(g~l, data = m1)
-print(mod1)
-summary(mod1)
+m1
+mod1 = cor.test(x=m1$l, y=m1$g, method= 'pearson')
+mod1
 
 ## Clear previous graphing input ##==================================
 graphics.off() # Turn graphics off, clear all plots 
@@ -343,9 +360,9 @@ meanmod2$mass_avg[is.nan(meanmod2$mass_avg)] <-NA
 meanmod2$gald_avg[is.nan(meanmod2$gald_avg)] <-NA
 
 m2 = meanmod2 %>% rename(m = mass_avg) %>% rename(g = gald_avg)
-mod2 = lm(g~m, data = m2)
-print(mod2)
-summary(mod2)
+mod2 = cor.test(x=m2$m, y=m2$g, method = 'pearson') 
+mod2
+
 par(mai=c(0.9,0.3,0.5,0.9))
 with(m2, plot(m,g,  col=ncol, cex = 1.5, pch=19, cex.lab=1.1, ylab = '', xlab = 'Zooplankton Body Mass'))
 abline(mod2)
@@ -358,8 +375,9 @@ Hebert_tot_exc_uM = Hebert_tot_exc_sum_e %>%
   rename(Nexc = H_ug_Nexcrete_sum_d, 
          Pexc = H_ug_Pexcrete_sum_d) %>% 
   mutate(Pexc_uM = (Pexc*1000000)/(1000000*30.97), # ug N or P per day per L to uM N or P per day  
-         Nexc_uM = (Nexc*1000000)/(1000000*14.01)) %>%
-  select(doy, Pexc_uM, Nexc_uM)
+         Nexc_uM = (Nexc*1000000)/(1000000*14.01)) %>% 
+  mutate(NP_molar = Nexc_uM/Pexc_uM) %>%
+  select(doy, Pexc_uM, Nexc_uM, NP_molar)
 Hebert_tot_exc_uM  
 
 # Uncertainty # 
@@ -458,4 +476,3 @@ WP_multi_uM = WP_multi_exc_sum %>%
   mutate(Nexc_uM = (Nexc*1000000)/(1000000*14.01), # ug N or P per day per L to uM N or P per day  
          Pexc_uM = (Pexc*1000000)/(1000000*30.97))
 WP_multi_uM
-  
