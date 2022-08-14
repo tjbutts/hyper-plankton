@@ -16,9 +16,20 @@ if (!require(RColorBrewer)) install.packages('RColorBrewer')
 library(RColorBrewer)
 
 # Zooplankton Colors
-display.brewer.pal(9, 'BuPu')
+display.brewer.pal(11, 'PiYG')
 box()
-brewer.pal(9, 'BuPu') # Light to Dark = Left to Right
+brewer.pal(11, 'PiYG')
+
+#8E0152, #DE77AE, #FDE0EF
+
+display.brewer.pal(11, 'PRGn')
+box()
+brewer.pal(11, 'PRGn') # Light to Dark = Left to Right
+
+#40004B, #9970AB, #E7D4E8
+
+#8E0152, #DE77AE, #FDE0EF, #40004B, #9970AB, #E7D4E8
+
 
 # Phytoplankton Colors
 display.brewer.pal(9, 'BuGn')
@@ -27,7 +38,7 @@ brewer.pal(9, 'BuGn') # Light to Dark = Left to Right
 
 # Set dimensions for figure #
 windows(height=6,width=6)
-par(mfrow=c(2,1), omi=c(0.1,0.9,0.1,0.1), mai=c(0.55,0.2,0.1,0.9))
+par(mfrow=c(2,1), omi=c(0.6,0.9,0.6,0.1), mai=c(0.55,0.2,0.1,0.9), mgp=c(3,0.5,0))
 
 # Zooplankton Biomass Time Series #==========================
 # Sum Zooplankton group totals to construct polygons 
@@ -42,6 +53,12 @@ plot(0,0, pch=NA, xlab="", ylab="", xlim=c(143,280), ylim=c(0,275),xaxt="n", cex
 axis(1, at=c(140,150,160,170, 180, 
              190, 200, 210, 220, 230, 
              240, 250, 260, 270, 280),labels=c("140","","160","","180","",'200', '',"220","","240","","260","", '280' ), cex.axis=1.1)
+axis(1, at=c(140,152,182, 
+             213, 244, 
+             274, 280),
+     line = 1.6, lwd.ticks = 0.5,
+     labels=c("","Jun.","Jul.",
+              'Aug.','Sep.','Oct.', ''), cex.axis=1)
 mtext(side=2, line=2, cex = 1, expression(atop(Zooplankon, Biomass~"("*mu*g~L^-1*")")), font = 2)
 
 doy = c(143,150,164,171,178,192,199,206,211,213,220,227,234,245,251,273)
@@ -67,6 +84,7 @@ polygon(
   c(min(totb$doy), totb$doy , max(totb$doy)) , 
   c(0 , totb$totbiomass , 0),  col='#3C3B3D', border=F)
 
+#8E0152, #DE77AE, #FDE0EF, #40004B, #9970AB, #E7D4E8
 
 #Cyclopoid polygon
 group_sums2 = group_sums %>% filter(!(group == 'Nauplii'))
@@ -131,7 +149,9 @@ totb4
 
 polygon(
   c(min(totb4$doy), totb4$doy , max(totb4$doy)) , 
-  c(0, totb4$totbiomass , 0),  col='#f1b6da', border=F)
+  c(0, totb4$totbiomass , 0),  col="#C51B7D", border=F)
+
+
 
 #Ostracod polygon (visually indistinguishable, but included here)
 group_sums_ostracod = group_sums %>% filter(!c(group == 'Nauplii' | 
@@ -140,11 +160,11 @@ group_sums_ostracod = group_sums %>% filter(!c(group == 'Nauplii' |
                                                  group == 'Rotifer'))
 
 sumzoop_ost = c(0, group_sums4[group_sums4$group =='Daphnia', 'biomass'] + #4F007F
-               group_sums4[group_sums4$group == 'Ceriodaphnia', 'biomass'] + #9F00FF
-               group_sums4[group_sums4$group == 'Simocephalus', 'biomass'] + 
-               group_sums4[group_sums4$group =='Bosmina','biomass'] + #94090D
-               group_sums4[group_sums4$group =='Chydorus', 'biomass'] + #FF1D23
-               group_sums[group_sums$group == 'Ostracod', 'biomass'], 0) #f075c0
+                  group_sums4[group_sums4$group == 'Ceriodaphnia', 'biomass'] + #9F00FF
+                  group_sums4[group_sums4$group == 'Simocephalus', 'biomass'] + 
+                  group_sums4[group_sums4$group =='Bosmina','biomass'] + #94090D
+                  group_sums4[group_sums4$group =='Chydorus', 'biomass'] + #FF1D23
+                  group_sums[group_sums$group == 'Ostracod', 'biomass'], 0) #f075c0
 
 totbiomassost = sumzoop_ost$biomass
 totbost = data.frame(doy, totbiomassost)
@@ -152,7 +172,9 @@ totbost
 
 polygon(
   c(min(totbost$doy), totbost$doy , max(totbost$doy)) , 
-  c(0, totbost$totbiomassost , 0),  col='#f075c0', border=F)
+  c(0, totbost$totbiomassost , 0),  col='#DE77AE', border=F)
+
+#DE77AE, #FDE0EF, #40004B, #9970AB, #E7D4E8
 
 # Chydorus polygon
 group_sums5 = group_sums %>% filter(!c(group == 'Nauplii' | 
@@ -174,7 +196,9 @@ totb5
 
 polygon(
   c(min(totb5$doy), totb5$doy , max(totb5$doy)) , 
-  c(0 , totb5$totbiomass , 0),  col='#40004b', border=F)
+  c(0 , totb5$totbiomass , 0),  col='#F1B6DA', border=F)
+
+#FDE0EF, #40004B, #9970AB, #E7D4E8
 
 # Bosmina polygon
 group_sums6 = group_sums %>% filter(!c(group == 'Nauplii' | 
@@ -195,7 +219,9 @@ totb6
 
 polygon(
   c(min(totb6$doy), totb6$doy , max(totb6$doy)) , 
-  c(0 , totb6$totbiomass , 0),  col='#762a83', border=F)
+  c(0 , totb6$totbiomass , 0),  col='#40004B', border=F)
+
+#40004B, #9970AB, #E7D4E8
 
 #Ceriodaphnia polygon
 group_sums8 = group_sums %>% filter(!c(group == 'Nauplii' | 
@@ -217,7 +243,9 @@ totb8
 
 polygon(
   c(min(totb8$doy), totb8$doy , max(totb8$doy)) , 
-  c(0, totb7$totbiomass , 0),  col='#9970ab', border=F)
+  c(0, totb8$totbiomass , 0),  col='#9970ab', border=F)
+
+#9970AB, #E7D4E8
 
 #Daphnia + Simocephalus polygon (Simocephalus grouped with Daphnia) 
 group_sums9 = group_sums %>% filter(!c(group == 'Nauplii' | 
@@ -239,21 +267,32 @@ totb9
 
 polygon(
   c(min(totb9$doy), totb9$doy , max(totb9$doy)) , 
-  c(0, totb9$totbiomass, 0),  col='#c2a5cf', border=F)
+  c(0, totb9$totbiomass, 0),  col='#c2A5CF', border=F)
+
+#E7D4E8
 
 # Need to reverse taxa order to follow the order of the polygons above 
 taxa = rev(c(expression(italic('Daphnia')), expression(italic('Ceriodaphnia')),
-             expression(italic('Bosmina')), expression(italic('Chydorus')), 'Rotifera','Ostracoda','Calanoid', 'Cyclopoid', 'Nauplii'))
+             expression(italic('Bosmina')), expression(italic('Chydorus')), 'Ostracoda','Rotifer','Calanoid', 'Cyclopoid', 'Nauplii'))
 # Need to reverse colors to match reverse above 
-col= rev(c("#c2a5cf", "#9970ab", "#762a83" ,"#40004b", "#f1b6da", '#f075c0', "#A2A1A6", '#6D6C70', '#3C3B3D'))
+col= rev(c("#c2A5CF", "#9970ab", "#40004b" ,"#F1B6DA", "#DE77AE", '#8E0152', "#A2A1A6", '#6D6C70', '#3C3B3D'))
+#8E0152, #DE77AE, #FDE0EF, #40004B, #9970AB, #E7D4E8
 
 # Phytoplankton Biomass Time Series #==========================
-# Transform long form data to wide format, make column headers consistent, and prepare for join with phytoplankton group information
+# Transform long form data to wide format, make column headers consistent
+# Make a separate data frame of grouping column and taxa column for later joining 
+phy_grouping = phy_biomass %>%
+  select(TAXON, TAXON_GROUPING) %>%
+  arrange(TAXON) %>% 
+  distinct() %>% 
+  rename(taxon = TAXON, 
+         group = TAXON_GROUPING)
+phy_grouping
+
 phy_wide = phy_biomass %>% 
-  rename(doy = Day) %>% # Rename column headers to be more consistent 
-  select(!(DIVISION)) %>%
-  filter(Treatment == 'Pre') %>%
-  select(!(Treatment)) %>%
+  rename(doy = DOY, 
+         group = TAXON_GROUPING) %>% # Rename column headers to be more consistent 
+  select(!c(DIVISION, group)) %>% # add TAXON_GROUPING back later 
   pivot_wider(names_from = TAXON, 
               values_from = BIOMASS.MG.L) %>%
   arrange(doy)
@@ -266,9 +305,11 @@ phy_wide = modify_if(phy_wide,is.character, as.factor) # Turn character columns 
 phy_wide
 phy_long = phy_wide %>% gather(key='species', value='biovolume', -c(doy)) %>% # Need long format to add grouping identifier 
   rename(taxon = species)
+phy_long
 
-# Add on taxonomic grouping with a left join
+# Change data to using only the taxa grouping column by joining the phy_grouping2
 phy_groups = left_join(phy_long, phy_grouping, by = 'taxon')
+as_tibble(phy_groups)
 
 # Readjust phytoplankton group names 
 unique(phy_groups$group) # Combine Chrysophyta, Cryptophyta, and Euglenophyta into other; Cyanophyta into other Cyanos 
@@ -309,13 +350,18 @@ pdat$division <- factor(pdat$division, levels = c('Bacillariophyta', 'Chlorophyt
 pdat
 
 # Plot Phytoplankton polygon # 
-
 plot(0,0, pch=NA, xlab="", ylab="", xlim=c(143,280), ylim=c(0,350),xaxt="n", cex.axis=1.1)
 axis(1, at=c(140,150,160,170, 180, 
              190, 200, 210, 220, 230, 
              240, 250, 260, 270, 280),labels=c("140","","160","","180","",'200', '',"220","","240","","260","", '280' ), cex.axis=1.1)
+axis(1, at=c(140,152,182, 
+             213, 244, 
+             274, 280),
+     line = 1.6, lwd.ticks = 0.5,
+     labels=c("","Jun.","Jul.",
+              'Aug.','Sep.','Oct.', ''), cex.axis=1)
 mtext(side=2, line=2, cex=1,expression(atop(Phytoplankton,Biomass~"("*mg~L^-1*")")))
-mtext(side=1, line=2, cex=1, 'Day of Year, 2019')
+mtext(side=1, line=3, cex=1, 'Day of Year, 2019')
 
 doy = c(143,150,157,164,172,178,192,199,206,211,213,220,227,245,251)
 doy = data.frame(doy)
@@ -444,48 +490,46 @@ windows(height=5, width=5)
 par(mai=c(0.9,1,0.6,1))
 plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
 legend('center', legend = rev(c('Bacillariophyta','Chlorophyta', 'Chryso-& Cryptophytes', 
-                               expression(italic('Aphanothece')), expression(italic('Microcystis')), 'Other Cyanophytes')), 
+                                expression(italic('Aphanothece')), expression(italic('Microcystis')), 'Other Cyanophytes')), 
        pch=15, bty='n',
        pt.cex=2.5, cex=0.8,
        col = c("#00441b", "#5aae61","#d9f0d3", "#3C3B3D", '#6D6C70', '#A2A1A6'))
 
 # Zooplankton to Phytoplankton Biomass percentage #========================
-# Total Biomass 
-# Set working directory to folder containing datasets derived from raw data 
-zoop_biomass = group_sums # Zooplankton biomass information 
-phyto_biomass = pdat # Phytoplankton biomass information 
-
-zoob_tot <- zoop_biomass %>% # Get total zooplankton biomass per day 
+# ZOOPLANKTON BIOMASS # 
+#==============================================================# 
+zp_totbiomass = zp_raw %>% 
+  select(doy, group, biomass) %>%
   group_by(doy) %>%
-  summarise(
-    zp_totalbiom = sum(biomass)) %>%
+  summarize(biomass = sum(biomass)) %>%
   ungroup() %>%
-  arrange(doy)
-as_tibble(zoob_tot)
+  filter(!(doy == 234 | doy == 273))
+zp_totbiomass
 
-# Rename DOY 171 to DOY 172 - sample ID mishap between zooplankton and phytoplankton sample IDs, 
-## samples taken on DOY 172
-doy = 172
-zp_totalbiom = 110.150061
-x = data.frame(doy, zp_totalbiom)
-x
-
-zoob = rbind(x,zoob_tot) %>% arrange(doy) %>% filter(!(doy==171))
-zoob
-
-# Format phytoplankton biomass 
-phyb = phyto_biomass %>% # Get total phytoplankton biomass per day 
+ptot = pdat %>%
   group_by(doy) %>%
-  summarise(
-    phy_totalbiom = sum(totbiom)) %>% 
-  ungroup() %>%
-  arrange(doy) %>% 
-  mutate(phy_totalbiom = phy_totalbiom*1000) # Convert phytoplankton from mg -> ug 
-as_tibble(phyb)
+  summarise(totbiom = sum(totbiom)) %>%
+  ungroup() %>% 
+  as_tibble() %>% 
+  mutate(totbiom_ug = totbiom*1000) %>%
+  filter(!(doy == 157))
+ptot
 
-join_biomass = left_join(phyb, zoob, by = 'doy')
-join_biomass # Each in ug/L 
+zpt = zp_totbiomass$biomass
+doy = zp_totbiomass$doy
+phy = ptot$totbiom_ug
+dat = cbind(doy, zpt)
+dat2 = cbind(dat, phy)
+dat2 = as_tibble(dat2)
+dat3 = dat2 %>% mutate(z_p = (zpt/phy)*100)
+dat3 = as.data.frame(dat3)
 
-ratio = join_biomass %>% mutate(z2p = (zp_totalbiom/phy_totalbiom)*100)
-ratio
-
+windows(height = 4, width = 6)
+par(omi=c(0.9,0.9,0.5,0.5), mai=c(0.1,0.2,0.1,0.1))
+plot(dat3$doy, dat3$z_p, xlab='', ylab='', ylim = c(0,50), cex.axis=1.1, cex=1.5, type = 'l', lwd=3, col='black')
+mtext(side = 2, text = 'Percent total zoo:phyto biomass', line=2.5, cex=1)
+mtext(side=1, 'Day of Year, 2019', line=2.5, cex=1)
+abline(h=10, lty=2, lwd=3)
+abline(h=40, lty=2, lwd=3)
+text(x=170, y=13, labels='Weak top-down control')
+text(x=170, y=43, labels='Strong top-down control')
