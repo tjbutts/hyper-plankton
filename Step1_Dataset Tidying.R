@@ -551,18 +551,21 @@ gv_length_mass = dt3
 ##Hamre, K. (2016) Nutrient profiles of rotifers (Brachionus sp.) and rotifer diets from four different marine fish hatcheries. Aquaculture, 450, 136–142.
 ##Hébert, M. P. et al. (2016a) A compilation of quantitative functional traits for marine and freshwater crustacean zooplankton. Ecology, 97, 1081.
 ##Hessen, D. O. et al. (2007) RNA responses to N- and P-limitation; reciprocal regulation of stoichiometry and growth rate in Brachionus. Funct. Ecol., 21, 956–962.
-zp_stoich = read_csv('2019_zoop_cnpratios.csv') 
+zp_stoich = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/2019_zoop_cnpratios.csv') 
 
 # Zooplankton Feeding Size Range 
-gv_foodsize = read_csv('2019_zoop_feedingrange.csv')
+gv_foodsize = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/2019_zoop_feedingrange.csv')
 
 # Supplemental #==========================
 
 # Historical GVL data from the Ambient Lakes Monitoring Program # 
-# - FIX - Describe Dataset that the data came from - FIX - it has it's own metadata # 
-alm_hist = read_csv('gv_alm_historical.csv')
-zoop_hist = read_csv('zp_historical.csv')
-phyto_hist = read_csv('gv_plankton_historical.csv')
+## These data sets were taken from the AQuIA database housing water quality and biological data on Iowa public lakes. These data are specific to Green Valley Lake, the study lake for this analysis.  
+## AQuIA Database: https://programs.iowadnr.gov/aquia/ 
+alm_hist = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/gv_alm_historical.csv')
+## Historical zooplankton and phytoplankton data from the Iowa State Ambient Lake Monitoring Program collected by the Iowa State Limnology Lab 
+## For more information about these data contact: tjbutts@wisc.edu 
+zoop_hist = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/zp_historical.csv')
+phyto_hist = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/gv_plankton_historical.csv')
 
 # Data I should just have #==============
 # 1. Hebert Coefficients from regressions # 
