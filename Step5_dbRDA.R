@@ -122,7 +122,7 @@ zoop_biomass = zp_totbiomass$biomass
 gv_exo_hf # Need to match sample dates of other explanatory variables 
 
 hf_select = gv_exo_hf %>% 
-  select(doy, temp, ph, tds, chl) %>%
+  select(doy, temp, ph) %>%
   filter(doy == 143 | # Match Sampling Dates 
            doy == 150 | 
            doy == 164 | 
@@ -139,8 +139,7 @@ hf_select = gv_exo_hf %>%
            doy == 251) %>%
   group_by(doy) %>%
   summarise(avg_temp = mean(temp, na.rm =T), # Get the daily average of these explanatory variables 
-            avg_ph = mean(ph, na.rm = T), 
-            avg_chl = mean(chl, na.rm = T))
+            avg_ph = mean(ph, na.rm = T))
 hf_select  
 hf_var = c(hf_select$doy, hf_select$avg_temp, hf_select$avg_ph)
 temp = hf_select$avg_temp 
@@ -151,8 +150,6 @@ ph = hf_select$avg_ph
 doy = c(143, 150, 164, 172, 178, 192, 199, 206,211,213,220, 227, 245, 251)
 `inorganic P` = ((inorg_P - mean(inorg_P, na.rm = T))/sd(inorg_P, na.rm = T))
 `inorganic N` = ((inorg_N - mean(inorg_N, na.rm = T))/sd(inorg_N, na.rm = T))
-#`P excretion` = ((exc_P - mean(exc_P, na.rm = T))/sd(exc_P, na.rm = T))
-#`N excretion` = ((exc_N - mean(exc_N, na.rm = T))/sd(exc_N, na.rm = T))
 `excretion N:P` = ((exc_NP - mean(exc_NP, na.rm = T))/sd(exc_NP, na.rm = T))
 `zoop N:P` = ((zoop_np - mean(zoop_np, na.rm = T))/sd(zoop_np, na.rm = T))
 `zoop biomass` = ((zoop_biomass - mean(zoop_biomass, na.rm = T))/sd(zoop_biomass, na.rm = T))
@@ -268,4 +265,3 @@ text(part, 'sites', cex= 0.9, col = 'black', adj=c(-0.5,0.1), font=2)
 text(part, 'bp', col = 'black', cex = 0.8)
 legend('topleft', legend = c('Pre-Cyano Bloom', 'Post-Cyano Bloom'), 
        pch = 19, bty='n', col=c('#008a64', '#630060'))
-
