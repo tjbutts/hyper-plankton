@@ -571,3 +571,13 @@ alm_hist = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/ma
 ## For more information about these data contact: tjbutts@wisc.edu 
 zoop_hist = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/zp_historical.csv')
 phyto_hist = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/gv_plankton_historical.csv')
+
+
+# How to run this code #========================
+# Step 1 - Dataset Tidying: Run this script to download necessary datasets and R packages
+# Step 2 - Nutrient-Stoich Dynamics: Run this script to run the calculations for generating figure 1 
+# Step 3 - Zooplankton-Phytoplankton Dynamics: Run this script to run the calculations for generating figure 2 
+# Step 4 - Zooplankton Excretion: Run this script to run the analyses for estimating zooplankton excretion to generate figure 3
+# Step 5 - Zooplankton-Phytoplankton Size Structure: Run this script to run the calculations and analyses of zooplankton-phytoplankton size structure to generate figure 4
+# Step 6 - dbRDA: Run this script to run the dbRDA analysis of phytoplankton community composition to generate figure 5
+# Step 7 - Supplementary Data: Run this script to run the calculations and analyses to produce the figures and tables in the supplemental data 
