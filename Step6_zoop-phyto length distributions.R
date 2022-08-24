@@ -38,13 +38,42 @@ zp_fsr_weighted = zp_fsr %>%
 zp_fsr_weighted # weighted minimum and maximum feeding size range 
 
 # Phytoplankton GALD v. Zooplankton length - combine into one dataset
-gv_gald 
+gv_gald = gv_gald %>% select(doy, gald)
+gv_length = gv_length_mass %>%
+  select(doy, length)
 
-# The following datasets are the combination of the phytoplankton GALD and zooplankton length data. 
+# The following datasets are the combination of the phytoplankton GALD and zooplankton length data.
 ## The analysis requires GALD and length to be in one data frame and two separate columns 
 ## For example, if there are more GALD observations than length observations, then the difference must be NAs in the zooplankton column. If there are 20 more GALD measurements than length measurements for DOY 143, then there need to be 20 NAs added to the zooplantkon column for DOY 143 to match the length of the GALD column 
-## I have not found a good way to do so in R, as such, the data from 'gv_gald' is combined in the dataset below and pulled from my github: https://github.com/tjbutts/hyper-plankton
-gv_gald_length = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/2019_gv_gald-length.csv')
+# Combine GALD and Length datasets # 
+## Add NAs to GALD data in order to match 
+# Make GALD NA data frame 
+doy = c(rep(150, 56), rep(164, 108), rep(172, 118), rep(178, 35), 
+        rep(192, 37), rep(199, 22), rep(206, 26), rep(211, 24), 
+        rep(213, 2), rep(227, 16), rep(234, 66), rep(251, 4), 
+        rep(273, 65))
+galdNAs = as.data.frame(doy)
+galdNAs['gald'] <- NA
+
+# Make length NA data frame 
+doy= c(rep(143, 248), rep(157, 28), rep(220, 39), rep(245, 1))
+lengthNAs = as.data.frame(doy)
+lengthNAs['length'] <- NA 
+
+# Measurement in DOY 211 entered in error. As entered it is 11215 um, should be 1215 um.
+#lengthNAs = replace(lengthNAs$length, lengthNAs$length >11214, 1215)
+
+# Make phytoplankton GALD - Zooplankton length data frame # 
+# rbind galdNAs to gald data frame 
+gv_gald_NAs = rbind(gv_gald, galdNAs) %>% arrange(doy)
+gv_gald_NAs
+
+# rbind lengthNAs to length data frame 
+gv_length_NAs = rbind(gv_length, lengthNAs) %>% arrange(doy) %>% select(length)
+gv_length_NAs$length[gv_length_NAs$length==11215] <- 1215
+
+gv_gald_length = as_tibble(cbind(gv_gald_NAs, gv_length_NAs))
+gv_gald_length
 
 # Format data set for ggplot and convert GALD units from ocular units to micrometers 
 ridge = gv_gald_length %>%
