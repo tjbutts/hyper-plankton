@@ -2,9 +2,9 @@
 # Code originally written by TJ Butts October 2021
 
 #================================================================##
-# STEP 3: VISUALIZE NUTREINT DYNAMICS AND ORGANISM STOICHIOMETRY
+# STEP 2: VISUALIZE NUTREINT DYNAMICS AND ORGANISM STOICHIOMETRY
 #================================================================##
-## NOTE: Be sure to run Steps 1-2 first ## 
+## NOTE: Be sure to run Steps 1 first ## 
 
 # Required Datasets 
 gv_nutrients # Surface water concentrations of total and dissolved N and P

@@ -2,7 +2,7 @@
 # Code originally written by TJ Butts October 2021
 
 #===============================================================================================##
-# STEP 2: VISUALIZE ZOOPLANKTON-PHYTOPLANKTON DYNAMICS + ZOOPLANKTON:PHYTOPLANKTON BIOMASS RATIO
+# STEP 3: VISUALIZE ZOOPLANKTON-PHYTOPLANKTON DYNAMICS + ZOOPLANKTON:PHYTOPLANKTON BIOMASS RATIO
 #===============================================================================================##
 ## NOTE: Be sure to run Step1_Dataset Tidying first ## 
 

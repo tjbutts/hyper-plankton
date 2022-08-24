@@ -2,9 +2,9 @@
 # Code originally written by TJ Butts November 2021
 
 #=================================================================================================##
-# STEP 5: REDUNDANCY ANALYSIS OF EXCRETION & ENVIRONMENTAL VARIABLES ON PHYTOPLANKTON COMMUNITY 
+# STEP 6: REDUNDANCY ANALYSIS OF EXCRETION & ENVIRONMENTAL VARIABLES ON PHYTOPLANKTON COMMUNITY 
 #=================================================================================================##
-## NOTE: Be sure to run Steps 1-4 first ## 
+## NOTE: Be sure to run Steps 1-5 first ## 
 
 #Format phytoplankton community data #=============================
 phy_biomass

@@ -4,7 +4,7 @@
 #=================================================================================================##
 # STEP 5: DENSITY RIDGELINE PLOT OF PHYTOPLANKTON GALD AND ZOOPLANKTON LENGTH
 #=================================================================================================##
-## NOTE: Be sure to run Steps 1-5 first ## 
+## NOTE: Be sure to run Steps 1-4 first ## 
 
 ## Calculate zooplankton community feeding size range 
 ## Calculate the weighted mean of the minimum and maximum size range (weight based on biomass) 

@@ -2,7 +2,7 @@
 # Code originally written by TJ Butts August 2022
 
 #============================================================================================##
-# STEP 4.5: QUANTIFY ZOOPLANKTON EXCRETION
+# STEP 4: QUANTIFY ZOOPLANKTON EXCRETION
 #============================================================================================##
 ## NOTE: Be sure to run Steps 1-3 first ## 
 
