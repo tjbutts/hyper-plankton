@@ -7,6 +7,7 @@
 
 # Dataset # 
 # Historical GV Data #============================ 
+# Run Breakpoint analysis to determine early - late season dynamic 
 
 # 
 alm_hist # Total GV Data 2000 - 2019 
@@ -66,17 +67,17 @@ points(alm_nhx_l[alm_nhx_l$analyte=="Ammonia-nitrogen (as N)", "DOYFrac"], alm_n
 
 alm_pre_e = alm_nhx_e %>% filter(Year <2016)
 mean(alm_pre_e[alm_pre_e$analyte=="Ammonia-nitrogen (as N)", "result"], na.rm = T)
-#lines(c(2011,2015), c(5.42, 5.42), lwd=4, col="dodgerblue4")
+lines(c(2011,2015), c(5.42, 5.42), lwd=4, col="dodgerblue4")
 alm_pre_l = alm_nhx_l %>% filter(Year <2016)
 mean(alm_pre_l[alm_pre_l$analyte=="Ammonia-nitrogen (as N)", "result"], na.rm = T)
-#lines(c(2011,2015), c(11.74, 11.74), lwd=4, col='seagreen4')
+lines(c(2011,2015), c(11.74, 11.74), lwd=4, col='seagreen4')
 
 alm_post_e = alm_nhx_e %>% filter(Year >2015)
 mean(alm_post_e[alm_post_e$analyte=="Ammonia-nitrogen (as N)", "result"], na.rm = T)
-#lines(c(2016,2019), c(1.56, 1.56), lwd=4, col="dodgerblue4")
+lines(c(2016,2019), c(1.56, 1.56), lwd=4, col="dodgerblue4")
 alm_post_l = alm_nhx_l %>% filter(Year >2015)
 mean(alm_post_l[alm_post_l$analyte=="Ammonia-nitrogen (as N)", "result"], na.rm = T)
-#lines(c(2016,2019), c(0.632, 0.632), lwd=4, col='seagreen4')
+lines(c(2016,2019), c(0.632, 0.632), lwd=4, col='seagreen4')
 
 legend('topright', legend=c('DOY < 170', 'DOY > 170'), cex=1.1, pch=c(15,19), col=c(ncol, ccol))
 
@@ -92,9 +93,9 @@ alm_tp_l = alm_tp %>% filter(season == 'late') %>% as.data.frame()
 points(alm_tp_l[alm_tp_l$analyte=="Total Phosphorus", "DOYFrac"], alm_tp_l[alm_tp_l$analyte=="Total Phosphorus", "result"], pch=19, col=ccol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020))
 
 mean(alm_tp_e[alm_tp_e$analyte=="Total Phosphorus", "result"], na.rm = T)
-#lines(c(2011,2019), c(3.68, 3.68), lwd=4, col="dodgerblue4")
+lines(c(2011,2019), c(3.68, 3.68), lwd=4, col="dodgerblue4")
 mean(alm_tp_l[alm_tp_l$analyte=="Total Phosphorus", "result"], na.rm = T)
-#lines(c(2011,2019), c(9.88, 9.88), lwd=4, col='seagreen4')
+lines(c(2011,2019), c(9.88, 9.88), lwd=4, col='seagreen4')
 
 #Soluble Reactive P
 alm_srp = alm %>% filter(analyte == 'Orthophosphate (as P)') %>%
@@ -108,9 +109,9 @@ alm_srp_l = alm_srp %>% filter(season == 'late') %>% as.data.frame()
 points(alm_srp_l[alm_srp_l$analyte=="Orthophosphate (as P)", "DOYFrac"], alm_srp_l[alm_srp_l$analyte=="Orthophosphate (as P)", "result"], pch=19, col=ccol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020))
 
 mean(alm_srp_e[alm_srp_e$analyte=="Orthophosphate (as P)", "result"], na.rm = T)
-#lines(c(2011,2019), c(0.747, 0.747), lwd=4, col="dodgerblue4")
+lines(c(2011,2019), c(0.747, 0.747), lwd=4, col="dodgerblue4")
 mean(alm_srp_l[alm_srp_l$analyte=="Orthophosphate (as P)", "result"], na.rm = T)
-#lines(c(2011,2019), c(4.426, 4.426), lwd=4, col='seagreen4')
+lines(c(2011,2019), c(4.426, 4.426), lwd=4, col='seagreen4')
 
 #Fixed Suspended Solids 
 alm_e = alm %>% filter(season == 'early') %>% as.data.frame()
@@ -119,9 +120,9 @@ alm_l = alm %>% filter(season == 'late') %>% as.data.frame()
 points(alm_l[alm_l$analyte=="Fixed suspended solids", "DOYFrac"], alm_l[alm_l$analyte=="Fixed suspended solids", "result"], pch=19, col=ccol, cex=1.5, xlab="", cex.axis=1.1, xlim=c(2010,2020))
 
 mean(alm_e[alm_e$analyte=="Fixed suspended solids", "result"], na.rm = T)
-#lines(c(2011,2019), c(4.97, 4.97), lwd=4, col="dodgerblue4")
+lines(c(2011,2019), c(4.97, 4.97), lwd=4, col="dodgerblue4")
 mean(alm_l[alm_l$analyte=="Fixed suspended solids", "result"], na.rm = T)
-#lines(c(2011,2019), c(8.35, 8.35), lwd=4, col='seagreen4')
+lines(c(2011,2019), c(8.35, 8.35), lwd=4, col='seagreen4')
 
 # Plankton Data 
 zoop_hist 
@@ -148,9 +149,9 @@ axis(side=2, at=c(log10(1), log10(2), log10(3), log10(4), log10(5), log10(6), lo
      labels=c("1","","","","","","","","","10","","","","","","","","","100","","","","","","","","","1000",'2000'), las=3, cex.lab=1.1)
 
 mean(zoop_clean_e$biomass, na.rm = T)
-#lines(c(2011,2019), c(log10(223.74), log10(223.74)), lwd=4, col="dodgerblue4")
+lines(c(2011,2019), c(log10(223.74), log10(223.74)), lwd=4, col="dodgerblue4")
 mean(zoop_clean_l$biomass, na.rm = T)
-#lines(c(2011,2019), c(log10(82.74), log10(82.73)), lwd=4, col='seagreen4')
+lines(c(2011,2019), c(log10(82.74), log10(82.73)), lwd=4, col='seagreen4')
 
 # Phytoplankton
 
@@ -176,9 +177,9 @@ axis(side=2, at=c(log10(1), log10(2), log10(3), log10(4), log10(5), log10(6), lo
      labels=c("1","","","","","","","","","10","","","","","","","","","100","","","","","","","","","1000", '2000'), las=3, cex.lab=1.3)
 
 mean(phyto_e$non_Cyanophyta, na.rm = T)
-#lines(c(2011,2019), c(log10(15.41), log10(15.41)), lwd=4, col="dodgerblue4")
+lines(c(2011,2019), c(log10(15.41), log10(15.41)), lwd=4, col="dodgerblue4")
 mean(phyto_l$non_Cyanophyta, na.rm = T)
-#lines(c(2011,2019), c(log10(5.11), log10(5.11)), lwd=4, col='seagreen4')
+lines(c(2011,2019), c(log10(5.11), log10(5.11)), lwd=4, col='seagreen4')
 
 # Cyanophyta
 plot(phyto_e$DOYFrac, log10(phyto_e$Cyanophyta), col=ncol, pch=15, cex=1.5, yaxt="n", xlab="", cex.axis=1.1, xlim=c(2010,2020),ylab=expression(Cyanos~"("*mg~L^-1*")"), cex.lab=1.4, ylim=c(log10(1), log10(2000)))
@@ -188,9 +189,9 @@ axis(side=2, at=c(log10(1), log10(2), log10(3), log10(4), log10(5), log10(6), lo
      labels=c("1","","","","","","","","","10","","","","","","","","","100","","","","","","","","","1000", '2000'), las=3, cex.lab=1.3)
 
 mean(phyto_e$Cyanophyta, na.rm = T)
-#lines(c(2011,2019), c(log10(275.24), log10(275.24)), lwd=4, col="dodgerblue4") # Mean of early 
+lines(c(2011,2019), c(log10(275.24), log10(275.24)), lwd=4, col="dodgerblue4") # Mean of early 
 mean(phyto_l$Cyanophyta, na.rm = T)
-#lines(c(2011,2019), c(log10(195.12), log10(195.12)), lwd=4, col='seagreen4') # Mean of late 
+lines(c(2011,2019), c(log10(195.12), log10(195.12)), lwd=4, col='seagreen4') # Mean of late 
 
 # Calculate nutrient turnover # =====================
 gv_turnoverpools = gvl19 %>% # From Step3 
@@ -213,16 +214,49 @@ nutrient_turnover
 
 # Phytoplankton GALD v. Zooplankton Body Mass #=======================================
 # Supplementary Figure S2 # 
-gv_gald_bodymass = read_csv('https://raw.githubusercontent.com/tjbutts/hyper-plankton/main/2019_gv_gald-bodymass.csv')
+# The following datasets are the combination of the phytoplankton GALD and zooplankton body mass data.
+## The analysis requires GALD and length to be in one data frame and two separate columns 
+## For example, if there are more GALD observations than length observations, then the difference must be NAs in the zooplankton column. If there are 20 more GALD measurements than length measurements for DOY 143, then there need to be 20 NAs added to the zooplantkon column for DOY 143 to match the length of the GALD column 
+# Combine GALD and Length datasets # 
+## Add NAs to GALD data in order to match 
+# Make GALD NA data frame 
+# Phytoplankton GALD v. Zooplankton body mass - combine into one dataset
+gv_gald = gv_gald %>% select(doy, gald)
+gv_mass = gv_length_mass %>%
+  select(doy, drymass)
+
+doy = c(rep(150, 56), rep(164, 108), rep(172, 118), rep(178, 35), 
+        rep(192, 37), rep(199, 22), rep(206, 26), rep(211, 24), 
+        rep(213, 2), rep(227, 16), rep(234, 66), rep(251, 4), 
+        rep(273, 65))
+galdNAs = as.data.frame(doy)
+galdNAs['gald'] <- NA
+
+# Make length NA data frame 
+doy= c(rep(143, 248), rep(157, 28), rep(220, 39), rep(245, 1))
+massNAs = as.data.frame(doy)
+massNAs['drymass'] <- NA 
+
+# Make phytoplankton GALD - Zooplankton mass data frame # 
+# rbind galdNAs to gald data frame 
+gv_gald_NAs = rbind(gv_gald, galdNAs) %>% arrange(doy)
+gv_gald_NAs
+
+# rbind lengthNAs to mass data frame 
+gv_mass_NAs = rbind(massNAs, gv_mass) %>% arrange(doy) %>% select(drymass) 
+gv_mass_NAs
+
+gv_gald_bodymass = as_tibble(cbind(gv_gald_NAs, gv_mass_NAs))
+gv_gald_bodymass
 
 ridge2 = gv_gald_bodymass %>% 
-  pivot_longer(cols = c(gald, mass), names_to = 'measure', values_to = 'value')
+  pivot_longer(cols = c(gald, drymass), names_to = 'measure', values_to = 'value')
 ridge2
 
 ridge_fct2 = ridge2 %>%
   mutate(doyfct = fct_rev(as.factor(doy)))
 gald_ridge = ridge_fct2 %>% filter(measure == 'gald')
-mass_ridge = ridge_fct2 %>% filter(measure == 'mass')
+mass_ridge = ridge_fct2 %>% filter(measure == 'drymass')
 
 # Can't combine - um v. ug so plot side by side 
 windows(height=6, width=6)
@@ -317,7 +351,6 @@ mass_mean
 
 # mean zooplankton length
 ridge = gv_gald_length %>%
-  mutate(gald = gald*2.5) %>% # Convert GALD measurement from ocular units to micrometers 
   pivot_longer(cols = c(gald, length), names_to = 'measure', values_to = 'value')
 ridge
 
@@ -350,8 +383,8 @@ mod1
 graphics.off() # Turn graphics off, clear all plots 
 windows(height=4, width=6)
 par(mfrow=c(1,2), mai=c(0.9,0.9,0.5,0.2))
-with(m1, plot(l,g,  col=ncol, cex = 1.5, pch=19, cex.lab=1.1, ylab = 'Phytoplankton GALD', xlab = 'Zooplankton Length'))
-abline(mod1)
+with(m1, plot(l,g,  col='black', cex = 1.5, pch=19, cex.lab=1.1, ylab = 'Phytoplankton GALD', xlab = 'Zooplankton Length'))
+
 
 meanmod2 = left_join(mass_mean, gald_mean, by = 'doy')
 meanmod2 
@@ -363,10 +396,10 @@ mod2 = cor.test(x=m2$m, y=m2$g, method = 'pearson')
 mod2
 
 par(mai=c(0.9,0.3,0.5,0.9))
-with(m2, plot(m,g,  col=ncol, cex = 1.5, pch=19, cex.lab=1.1, ylab = '', xlab = 'Zooplankton Body Mass'))
-abline(mod2)
+with(m2, plot(m,g,  col='black', cex = 1.5, pch=19, cex.lab=1.1, ylab = '', xlab = 'Zooplankton Body Mass'))
 
-# Zooplankton Excretion Hebert and Wen and Peters estimation #=====================================
+
+# Zooplankton Excretion #=====================================
 Hebert_tot_exc_sum_e # ug N or P per day per L, estimate from Step4
 
 # Convert to uM # 
@@ -475,127 +508,3 @@ WP_multi_uM = WP_multi_exc_sum %>%
   mutate(Nexc_uM = (Nexc*1000000)/(1000000*14.01), # ug N or P per day per L to uM N or P per day  
          Pexc_uM = (Pexc*1000000)/(1000000*30.97))
 WP_multi_uM
-
-# Zooplankton to Phytoplankton Biomass percentage #========================
-# ZOOPLANKTON BIOMASS # 
-#==============================================================# 
-zp_totbiomass = zp_raw %>% 
-  select(doy, group, biomass) %>%
-  group_by(doy) %>%
-  summarize(biomass = sum(biomass)) %>%
-  ungroup() %>%
-  filter(!(doy == 234 | doy == 273))
-zp_totbiomass
-
-ptot = pdat %>%
-  group_by(doy) %>%
-  summarise(totbiom = sum(totbiom)) %>%
-  ungroup() %>% 
-  as_tibble() %>% 
-  mutate(totbiom_ug = totbiom*1000) %>%
-  filter(!(doy == 157))
-ptot
-
-zpt = zp_totbiomass$biomass
-doy = zp_totbiomass$doy
-phy = ptot$totbiom_ug
-dat = cbind(doy, zpt)
-dat2 = cbind(dat, phy)
-dat2 = as_tibble(dat2)
-dat3 = dat2 %>% mutate(z_p = (zpt/phy)*100)
-dat3 = as.data.frame(dat3)
-
-windows(height = 4, width = 6)
-par(omi=c(0.9,0.9,0.5,0.5), mai=c(0.1,0.2,0.1,0.1))
-plot(dat3$doy, dat3$z_p, xlab='', ylab='', ylim = c(0,50), cex.axis=1.1, cex=1.5, type = 'l', lwd=3, col='black')
-mtext(side = 2, text = 'Percent total zoo:phyto biomass', line=2.5, cex=1)
-mtext(side=1, 'Day of Year, 2019', line=2.5, cex=1)
-abline(h=10, lty=2, lwd=3)
-abline(h=40, lty=2, lwd=3)
-text(x=170, y=13, labels='Weak top-down control')
-text(x=170, y=43, labels='Strong top-down control')
-
-# N:P Ratio plot #==========================
-Hebert_tot_exc_sum_e # ug N or P per day per L, estimate from Step4
-
-# Convert to uM # 
-Hebert_tot_exc_uM = Hebert_tot_exc_sum_e %>%
-  rename(Nexc = H_ug_Nexcrete_sum_d, 
-         Pexc = H_ug_Pexcrete_sum_d) %>% 
-  mutate(Pexc_uM = (Pexc*1000000)/(1000000*30.97), # ug N or P per day per L to uM N or P per day  
-         Nexc_uM = (Nexc*1000000)/(1000000*14.01)) %>% 
-  mutate(NP_molar = Nexc_uM/Pexc_uM) %>%
-  select(doy, Pexc_uM, Nexc_uM, NP_molar)
-Hebert_tot_exc_uM 
-
-windows(height = 4, width = 6)
-plot(Hebert_tot_exc_uM $doy, Hebert_tot_exc_uM$NP_molar , type='l', xlim=c(140,280), col='black', lwd=3,
-     cex.axis=1.1, cex=1.5, ylim = c(0,5),  xlab='', ylab='')
-mtext(side=1, 'Day of Year, 2019', line=3, cex=1)
-mtext(side=2, 'Zooplankton excretion N:P', line=2.5, cex=1)
-
-# PLOT: % GALD within zooplankton community feeding range #======================
-
-fsr_lines_min = data.frame(doyfct = doyfct_select2, 
-                           x0 = c(zp_fsr_weighted$wm_min))
-fsr_lines_max = data.frame(doyfct = doyfct_select2, 
-                           x1 = c(zp_fsr_weighted$wm_max))
-
-ridge
-zp_fsr_weighted2 = zp_fsr_weighted %>% select(!(doyfct))
-
-gald_range = ridge %>% filter(measure == 'gald')
-gald_range
-
-join_fsr = left_join(gald_range, zp_fsr_weighted2, by ='doy')
-join_fsr 
-
-fsr_percent = join_fsr %>% 
-  mutate(within_range = case_when(value >= wm_min & value <= wm_max ~ 'within'))
-fsr_percent$within_range = fsr_percent$within_range %>% replace_na('outside') 
-fsr_percent2 = fsr_percent %>% 
-  mutate(count = 1)
-fsr_percent2
-
-fsr_percent_wide = fsr_percent2 %>% # Make the value inside or outside of the feeding range a categorical variable
-  select(doy, within_range, count) %>% 
-  mutate(row = seq.int(nrow(fsr_percent2))) %>%
-  pivot_wider(names_from = within_range, values_from = count)
-fsr_percent_wide[is.na(fsr_percent_wide)] <- 0
-fsr_percent_wide
-
-fsr_percent_wide$within = factor(fsr_percent_wide$within, c(0,1), labels = c('outside', 'within'))
-fsr_percent_wide$doy = factor(fsr_percent_wide$doy)
-
-cross = table(fsr_percent_wide$within, fsr_percent_wide$doy)
-cross
-
-percents = round(prop.table(cross, 2)*100, digits=0)
-percents.m = as.matrix(percents)
-percents = percents.m[, c(1,2,4,5,6,7,8,9,10,11,12,13,15,16)]
-percents
-
-doy = c(143,150,164, 172, 178, 192, 199, 206, 211,213,220,227,245,251)
-percent_within = c(53,38,13,4,37,0,3,25,38,65,68,50,87,74)
-fsr_percent_fin = as.data.frame(percent_within, row.names = doy)
-fsr_percent_fin$doy = doy
-fsr_percent_fin = fsr_percent_fin %>% 
-  select(doy, percent_within) %>%
-  mutate(doy = as.factor(doy)) %>%
-  as.data.frame()
-fsr_percent_fin
-
-windows(height=3, width=5)
-par(mai=c(0.9,0.9,0.6,0.5))
-barplot(percents, col = c('black', 'gray90'))
-box()
-mtext(side=2, text='Percent GALD', line=2.5)
-mtext(side=1, text='Day of Year, 2019', line = 2.5)
-
-windows(height=5, width=5)
-par(mai=c(0.9,1,0.6,1))
-plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
-legend('center', legend = c('Within', 'Outside'), 
-       pch=15,
-       pt.cex=2.5, cex=0.8,
-       col = c('gray90', 'black'))
